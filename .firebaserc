@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "cloudgenz-client-demo"
+  },
+  "targets": {
+    "cloudgenz-client-demo": {
+      "hosting": {
+        "dev-site": [
+          "mtsc-nl-dev"
+        ],
+        "stage-site": [
+          "mtsc-nl-stage"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
