@@ -79,11 +79,11 @@ export const SiteHeader = () => {
           <img
             src={logo}
             alt="Mission to Seafarers Logo"
-            className="h-20 md:h-20 lg:h-24 w-auto shrink-0 object-contain rounded-md group-hover:scale-105 transition-transform"
+            className="h-14 md:h-20 lg:h-24 w-auto shrink-0 object-contain rounded-md group-hover:scale-105 transition-transform"
           />
           <span className="flex flex-col leading-none justify-center">
             <span className="text-[16px] lg:text-[15px] xl:text-[18px] font-extrabold text-navy whitespace-nowrap">Mission to Seafarers</span>
-            <span className="text-[12px] lg:text-[11px] xl:text-[13px] font-bold uppercase tracking-[0.18em] text-coral mt-0.5 whitespace-nowrap">Newfoundland and Labrador</span>
+            <span className="text-[10px] lg:text-[11px] xl:text-[13px] font-bold uppercase tracking-[0.18em] text-coral mt-0.5 whitespace-nowrap">Newfoundland and Labrador</span>
           </span>
         </Link>
 
