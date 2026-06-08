@@ -1,111 +1,110 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ─────────────────────────────────────────────────────────────
+   Mission to Seafarers Toronto — Design System
+   All colors HSL. Brand consistent with MTSC Halifax.
+   ───────────────────────────────────────────────────────────── */
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    /* Brand */
+    --background: 0 0% 100%;
+    --foreground: 222 30% 15%;
+
+    --navy: 232 48% 34%;          /* #2d3580 */
+    --navy-dark: 226 58% 26%;     /* #1c2e6b */
+    --navy-foreground: 0 0% 100%;
+
+    --coral: 16 75% 52%;          /* #e05a2b */
+    --coral-light: 16 86% 60%;    /* #f07040 */
+    --coral-pale: 18 80% 96%;     /* #fdf0eb */
+    --coral-foreground: 0 0% 100%;
+
+    --warm-gray: 30 21% 96%;      /* #f7f4f1 */
+    --periwinkle: 226 44% 65%;
+    --teal: 180 60% 44%;
+    --text-mid: 0 0% 40%;
+
+    /* Shadcn semantic mapping */
+    --card: 0 0% 100%;
+    --card-foreground: 222 30% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 30% 15%;
+
+    --primary: 232 48% 34%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 30 21% 96%;
+    --secondary-foreground: 232 48% 34%;
+
+    --muted: 30 21% 96%;
+    --muted-foreground: 0 0% 40%;
+
+    --accent: 16 75% 52%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 14% 91%;
+    --input: 220 14% 91%;
+    --ring: 232 48% 34%;
+
+    --radius: 0.75rem;
+
+    /* Custom tokens */
+    --shadow-warm: 0 6px 20px hsl(16 75% 52% / 0.35);
+    --shadow-warm-hover: 0 10px 28px hsl(16 75% 52% / 0.45);
+    --shadow-card: 0 2px 12px hsl(0 0% 0% / 0.06);
+    --shadow-card-hover: 0 12px 32px hsl(16 75% 52% / 0.12);
+    --shadow-soft: 0 4px 24px hsl(232 48% 34% / 0.08);
+
+    --gradient-hero: linear-gradient(135deg, hsl(232 48% 34%) 0%, hsl(226 58% 26%) 100%);
+    --gradient-coral: linear-gradient(135deg, hsl(16 75% 52%) 0%, hsl(16 86% 60%) 100%);
+    --gradient-warm: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(30 21% 96%) 100%);
+
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5% 26%;
+    --sidebar-primary: 232 48% 34%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 5% 96%;
+    --sidebar-accent-foreground: 232 48% 34%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 232 48% 34%;
   }
+}
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-nunito;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5 {
+    @apply font-nunito text-navy;
+  }
+  ::selection {
+    @apply bg-coral text-white;
   }
 }
 
-body {
-  margin: 0;
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
   }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-coral;
   }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+  .eyebrow::before {
+    content: "";
+    @apply block h-px w-8 bg-coral;
+  }
 }
