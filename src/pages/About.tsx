@@ -591,7 +591,7 @@ const About = () => {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {[
                 { i: Users, t: "Face-to-Face Ship Visiting", d: "Emotional, spiritual, and crisis support to crews in port." },
-                { i: Navigation, t: "Seafarers' Centre Upgrades", d: "Creating modern, safe spaces for rest and recreation." },
+                { i: Navigation, t: "Seafarers Centre Upgrades", d: "Creating modern, safe spaces for rest and recreation." },
                 { i: HeartPulse, t: "Mental Health & Crisis Response", d: "Life-saving interventions with SafeTALK and CISM training." },
                 { i: Smartphone, t: "Digital Innovation", d: "Tools like the Happy at Sea app and Ship Visitor software improve communication." },
                 { i: Globe2, t: "Diversity & Inclusion", d: "Hiring female ship visitors and supporting marginalized seafarers." },
