@@ -281,7 +281,7 @@ const Index = () => {
 
           <div className="mt-12 text-center max-w-2xl mx-auto flex justify-center">
             <Button asChild size="lg" className="bg-navy hover:bg-navy-light text-white font-bold h-12">
-              <Link to="/about-us/">Learn more - Introduction to the Mission to seafarers <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              <Link to="/about">Introduction to the Mission to seafarers <ArrowRight className="ml-2 h-4 w-4" /></Link>
             </Button>
           </div>
         </div>

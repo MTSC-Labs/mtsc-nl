@@ -17,7 +17,6 @@ const nav = [
   { to: "/support", label: "Seafarer Support" },
   { to: "/get-involved", label: "Get Involved" },
   { to: "/contact", label: "Contact" },
-  // { to: "/events", label: "Events" },
 ];
 
 export const SiteHeader = () => {
@@ -63,44 +62,50 @@ export const SiteHeader = () => {
   return (
     <header
       ref={headerRef}
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? "bg-white/95 backdrop-blur-md shadow-soft" : "bg-white/80 backdrop-blur"
-        }`}
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        scrolled ? "bg-white/95 backdrop-blur-md shadow-soft" : "bg-white/80 backdrop-blur"
+      }`}
     >
       {/* 
-        UPDATED CONTAINER: 
-        Replaced `container-page` with a custom wide container (`max-w-[1600px]`) 
-        to ensure all buttons and nav items have enough room to sit on one line.
+        Responsive Container: Adjusts heights dynamically. 
+        h-16 for mobile, h-20 for tablet, h-24 for laptop, up to h-28 on massive screens.
       */}
-      <div className="w-full max-w-[1600px] mx-auto px-4 md:px-6 lg:px-8 flex h-20 items-center justify-between md:h-24 lg:h-28 gap-4">
-
-        {/* Logo - Ensures text doesn't wrap using whitespace-nowrap */}
-        {/* Logo - Ensures text doesn't wrap using whitespace-nowrap */}
-        <Link to="/" className="flex items-center gap-2 lg:gap-3 group shrink-0">
+      <div className="w-full max-w-[1600px] mx-auto px-4 md:px-6 lg:px-8 flex h-16 sm:h-20 lg:h-24 2xl:h-28 items-center justify-between gap-3 lg:gap-4">
+        
+        {/* Logo Area */}
+        <Link to="/" className="flex items-center gap-2 md:gap-3 group shrink-0 min-w-0">
           <img
             src={logo}
             alt="Mission to Seafarers Logo"
-            className="h-14 md:h-20 lg:h-24 w-auto shrink-0 object-contain rounded-md group-hover:scale-105 transition-transform"
+            className="h-10 sm:h-12 md:h-14 lg:h-16 xl:h-20 2xl:h-24 w-auto shrink-0 object-contain rounded-md group-hover:scale-105 transition-transform"
           />
-          <span className="flex flex-col leading-none justify-center">
-            <span className="text-[16px] lg:text-[15px] xl:text-[18px] font-extrabold text-navy whitespace-nowrap">Mission to Seafarers</span>
-            <span className="text-[10px] lg:text-[11px] xl:text-[13px] font-bold uppercase tracking-[0.18em] text-coral mt-0.5 whitespace-nowrap">Newfoundland and Labrador</span>
+          <span className="flex flex-col leading-none justify-center min-w-0">
+            <span className="text-[13px] sm:text-[15px] lg:text-[14px] xl:text-[16px] 2xl:text-[18px] font-extrabold text-navy truncate md:whitespace-nowrap">
+              Mission to Seafarers
+            </span>
+            <span className="text-[8px] sm:text-[10px] lg:text-[9px] xl:text-[11px] 2xl:text-[13px] font-bold uppercase tracking-[0.12em] sm:tracking-[0.18em] text-coral mt-0.5 truncate md:whitespace-nowrap">
+              Newfoundland and Labrador
+            </span>
           </span>
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-0.5 xl:gap-2">
-          {nav.map((n) => (
+          {nav.map((n) =>
             n.subItems ? (
               <div key={n.to} className="relative group">
                 <NavLink
                   to={n.to}
                   className={({ isActive }) =>
-                    `flex items-center gap-1 px-2 xl:px-3 py-2 text-[13px] xl:text-[15px] 2xl:text-base font-semibold whitespace-nowrap rounded-md transition-colors ${isActive || location.pathname.includes(n.to) ? "text-coral" : "text-navy hover:text-coral"
+                    `flex items-center gap-1 px-1.5 xl:px-3 py-2 text-[12px] xl:text-[14px] 2xl:text-base font-semibold whitespace-nowrap rounded-md transition-colors ${
+                      isActive || location.pathname.includes(n.to)
+                        ? "text-coral"
+                        : "text-navy hover:text-coral"
                     }`
                   }
                 >
                   {n.label}
-                  <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                  <ChevronDown className="w-3.5 h-3.5 xl:w-4 xl:h-4 transition-transform group-hover:rotate-180" />
                 </NavLink>
 
                 {/* Desktop Dropdown Menu */}
@@ -112,7 +117,10 @@ export const SiteHeader = () => {
                         to={sub.to}
                         end={sub.to === "/newsletter"}
                         className={({ isActive }) =>
-                          `block px-3 py-2 text-sm font-medium rounded-md transition-colors whitespace-normal ${isActive ? "bg-coral-pale text-coral" : "text-text-mid hover:text-navy hover:bg-warm-gray"
+                          `block px-3 py-2 text-sm font-medium rounded-md transition-colors whitespace-normal ${
+                            isActive
+                              ? "bg-coral-pale text-coral"
+                              : "text-text-mid hover:text-navy hover:bg-warm-gray"
                           }`
                         }
                       >
@@ -128,35 +136,44 @@ export const SiteHeader = () => {
                 to={n.to}
                 end={n.to === "/"}
                 className={({ isActive }) =>
-                  `px-2 xl:px-3 py-2 text-[13px] xl:text-[15px] 2xl:text-base font-semibold whitespace-nowrap rounded-md transition-colors ${isActive ? "text-coral" : "text-navy hover:text-coral"
+                  `px-1.5 xl:px-3 py-2 text-[12px] xl:text-[14px] 2xl:text-base font-semibold whitespace-nowrap rounded-md transition-colors ${
+                    isActive ? "text-coral" : "text-navy hover:text-coral"
                   }`
                 }
               >
                 {n.label}
               </NavLink>
             )
-          ))}
+          )}
         </nav>
 
         {/* Desktop CTA Buttons */}
         <div className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
           {/* Seafarer Parcel Pickup Service Button */}
-          <Button asChild variant="outline" size="sm" className="border-border bg-warm-gray text-navy hover:bg-navy hover:text-white font-bold whitespace-nowrap text-xs xl:text-sm px-3 xl:px-4">
-            <a href="https://parcelservice.mtsc.ca/" target="_blank" rel="noopener noreferrer" className="flex items-center">
-              <Package className="w-4 h-4 mr-1.5 hidden 2xl:block" />
-              {/* Expands to full text ONLY on massive screens (2xl), otherwise stays short to save line space */}
-              <span className="hidden 2xl:inline">Seafarer Parcel Pickup Service</span>
-              <span className="2xl:hidden">Parcel Pickup</span>
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="border-border bg-warm-gray text-navy hover:bg-navy hover:text-white font-bold whitespace-nowrap text-[11px] xl:text-sm px-2.5 xl:px-4"
+          >
+            <a
+              href="https://parcelservice.mtsc.ca/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center"
+            >
+              <Package className="w-3.5 h-3.5 xl:w-4 xl:h-4 mr-1.5 hidden xl:block" />
+              {/* Expands to full text ONLY on xl screens and above */}
+              <span className="hidden xl:inline">Seafarer Parcel Pickup Service</span>
+              <span className="xl:hidden">Parcel Pickup</span>
             </a>
           </Button>
-
-         
 
           {/* Large Orange Donate Button */}
           <Button
             onClick={() => setDonateDialogOpen(true)}
             size="lg"
-            className="bg-coral hover:bg-coral-light text-white font-bold shadow-warm hover:shadow-warm-hover px-5 xl:px-6 text-sm xl:text-base whitespace-nowrap cursor-pointer"
+            className="bg-coral hover:bg-coral-light text-white font-bold shadow-warm hover:shadow-warm-hover px-4 xl:px-6 text-sm xl:text-base whitespace-nowrap cursor-pointer"
           >
             Donate
           </Button>
@@ -166,35 +183,40 @@ export const SiteHeader = () => {
         <button
           aria-label="Toggle menu"
           onClick={() => setOpen((v) => !v)}
-          className="lg:hidden p-2 rounded-md text-navy hover:bg-warm-gray shrink-0"
+          className="lg:hidden p-1.5 sm:p-2 rounded-md text-navy hover:bg-warm-gray shrink-0"
         >
-          {open ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
+          {open ? <X className="h-6 w-6 sm:h-7 sm:w-7" /> : <Menu className="h-6 w-6 sm:h-7 sm:w-7" />}
         </button>
       </div>
 
       {/* Mobile Navigation Drawer */}
       {open && (
-        <div className="lg:hidden border-t border-border bg-white animate-in fade-in slide-in-from-top-4 duration-300 shadow-xl">
-          <div className="container-page py-4 flex flex-col gap-2 max-h-[85vh] overflow-y-auto">
+        <div className="absolute top-full left-0 w-full lg:hidden border-b border-border bg-white shadow-xl animate-in fade-in slide-in-from-top-2 duration-300">
+          <div className="max-h-[calc(100dvh-4rem)] sm:max-h-[calc(100dvh-5rem)] overflow-y-auto px-4 py-4 sm:px-6 flex flex-col gap-2">
             {nav.map((n) => (
               <div key={n.to} className="flex flex-col">
                 {n.subItems ? (
                   <>
                     <button
                       onClick={() => toggleMobileAccordion(n.label)}
-                      className={`px-3 py-3 text-base font-semibold rounded-md flex items-center justify-between w-full text-left transition-colors ${location.pathname.includes(n.to) ? "bg-coral-pale text-coral" : "text-navy hover:bg-warm-gray"
-                        }`}
+                      className={`px-3 py-3 text-base sm:text-lg font-semibold rounded-md flex items-center justify-between w-full text-left transition-colors ${
+                        location.pathname.includes(n.to)
+                          ? "bg-coral-pale text-coral"
+                          : "text-navy hover:bg-warm-gray"
+                      }`}
                     >
                       {n.label}
                       <ChevronDown
-                        className={`w-5 h-5 transition-transform duration-300 ${mobileExpanded === n.label ? "rotate-180" : ""
-                          }`}
+                        className={`w-5 h-5 transition-transform duration-300 ${
+                          mobileExpanded === n.label ? "rotate-180" : ""
+                        }`}
                       />
                     </button>
 
                     <div
-                      className={`overflow-hidden transition-all duration-300 ease-in-out ${mobileExpanded === n.label ? "max-h-[400px] opacity-100 mt-1" : "max-h-0 opacity-0"
-                        }`}
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                        mobileExpanded === n.label ? "max-h-[400px] opacity-100 mt-1" : "max-h-0 opacity-0"
+                      }`}
                     >
                       <div className="flex flex-col gap-1 pl-4 border-l-2 border-warm-gray ml-3 mb-2">
                         {n.subItems.map((sub) => (
@@ -203,7 +225,10 @@ export const SiteHeader = () => {
                             to={sub.to}
                             end={sub.to === "/newsletter"}
                             className={({ isActive }) =>
-                              `px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${isActive ? "text-coral font-bold bg-coral-pale/50" : "text-text-mid hover:text-navy hover:bg-warm-gray"
+                              `px-3 py-2.5 text-sm sm:text-base font-medium rounded-md transition-colors ${
+                                isActive
+                                  ? "text-coral font-bold bg-coral-pale/50"
+                                  : "text-text-mid hover:text-navy hover:bg-warm-gray"
                               }`
                             }
                           >
@@ -218,7 +243,8 @@ export const SiteHeader = () => {
                     to={n.to}
                     end={n.to === "/"}
                     className={({ isActive }) =>
-                      `px-3 py-3 text-base font-semibold rounded-md transition-colors ${isActive ? "bg-coral-pale text-coral" : "text-navy hover:bg-warm-gray"
+                      `px-3 py-3 text-base sm:text-lg font-semibold rounded-md transition-colors ${
+                        isActive ? "bg-coral-pale text-coral" : "text-navy hover:bg-warm-gray"
                       }`
                     }
                   >
@@ -229,14 +255,18 @@ export const SiteHeader = () => {
             ))}
 
             {/* Mobile CTAs */}
-            <div className="flex flex-col gap-3 pt-4 border-t border-border mt-2">
-              <Button asChild variant="outline" className="border-2 border-border bg-warm-gray text-navy font-bold w-full justify-start h-12">
+            <div className="flex flex-col gap-3 pt-4 border-t border-border mt-2 pb-4">
+              <Button
+                asChild
+                variant="outline"
+                className="border-2 border-border bg-warm-gray text-navy font-bold w-full justify-start h-12 text-sm sm:text-base whitespace-normal text-left"
+              >
                 <a href="https://parcelservice.mtsc.ca/" target="_blank" rel="noopener noreferrer">
-                  <Package className="w-5 h-5 mr-2" />
+                  <Package className="w-5 h-5 mr-2 shrink-0" />
                   Seafarer Parcel Pickup Service
                 </a>
               </Button>
-              
+
               <Button
                 onClick={() => {
                   setDonateDialogOpen(true);
@@ -253,14 +283,15 @@ export const SiteHeader = () => {
 
       {/* Donate Dialog Popup */}
       <Dialog open={donateDialogOpen} onOpenChange={setDonateDialogOpen}>
-        <DialogContent className="max-w-5xl h-[95vh] p-0 overflow-hidden flex flex-col">
-          <DialogHeader className="p-4 pb-3 shrink-0 border-b">
-            <DialogTitle className="flex items-center gap-3 text-xl font-extrabold text-navy">
-              <Gift className="h-5 w-5 text-coral" />
+        {/* Adjusted Dialog Content for native mobile viewing */}
+        <DialogContent className="w-[95vw] sm:w-full max-w-5xl h-[90dvh] sm:h-[95vh] p-0 overflow-hidden flex flex-col rounded-xl">
+          <DialogHeader className="p-3 sm:p-4 pb-2 sm:pb-3 shrink-0 border-b">
+            <DialogTitle className="flex items-center gap-2 sm:gap-3 text-lg sm:text-xl font-extrabold text-navy">
+              <Gift className="h-5 w-5 text-coral shrink-0" />
               Secure Donation Form
             </DialogTitle>
           </DialogHeader>
-          <div className="flex-1 overflow-hidden p-2">
+          <div className="flex-1 overflow-hidden p-1 sm:p-2 bg-muted/20">
             <div className="w-full h-full bg-white rounded-lg border border-border overflow-hidden">
               <iframe
                 src="https://www.canadahelps.org/en/dn/145961"
