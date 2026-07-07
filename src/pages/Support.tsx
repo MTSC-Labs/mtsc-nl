@@ -48,13 +48,53 @@ const ShipVisitForm = ({ onClose }: FormProps) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Mock API submission
-    setTimeout(() => {
+    const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfok1ZXI3M88lnpid0RW8o_3FKyKkJnzVMt8MqgJmFBN87wzA/formResponse";
+    const formData = new URLSearchParams();
+
+    // Standard text inputs must always send their keys
+    formData.append("entry.594071822", form.firstName);
+    formData.append("entry.1077362527", form.lastName);
+    formData.append("entry.1920683143", form.role);
+    formData.append("entry.1633043583", form.shipName);
+    formData.append("entry.1078866099", form.portLocation);
+    formData.append("entry.1052638757", form.arrivalDate);
+    formData.append("entry.1220835606", form.crewCount);
+
+    form.supportInterests.forEach(interest => {
+      if (interest === 'Other') {
+        formData.append("entry.1345349579", "__other_option__");
+        formData.append("entry.1345349579.other_option_response", form.supportOther);
+      } else {
+        formData.append("entry.1345349579", interest);
+      }
+    });
+
+    // Google forms STRICTLY rejects empty string values for Date fields. 
+    // We only append this key if the user actually selected a date.
+    if (form.preferredDateTime) {
+      formData.append("entry.402214578", form.preferredDateTime);
+    }
+    
+    formData.append("entry.59853682", form.contactMethod);
+
+    try {
+      await fetch(formUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formData.toString(),
+      });
+      
       toast({ title: "Ship Visit Requested", description: "Thank you for reaching out! Our team will connect with you soon." });
       setForm({ firstName: "", lastName: "", role: "", shipName: "", portLocation: "", arrivalDate: "", crewCount: "", supportInterests: [], supportOther: "", preferredDateTime: "", contactMethod: "" });
       onClose();
+    } catch (error) {
+      toast({ title: "Submission Error", description: "Something went wrong. Please try again." });
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -97,7 +137,8 @@ const ShipVisitForm = ({ onClose }: FormProps) => {
           )}
         </div>
 
-        <div><Label>Preferred Date/Time for Visit</Label><Input value={form.preferredDateTime} onChange={e => setForm({ ...form, preferredDateTime: e.target.value })} className="mt-1.5 bg-white" /></div>
+        {/* Changed to type="date" below because Google Forms strictly expects a valid YYYY-MM-DD for this field */}
+        <div><Label>Preferred Date/Time for Visit</Label><Input type="date" value={form.preferredDateTime} onChange={e => setForm({ ...form, preferredDateTime: e.target.value })} className="mt-1.5 bg-white" /></div>
         <div><Label>Best Way To Reach You (Email/phone)</Label><Input value={form.contactMethod} onChange={e => setForm({ ...form, contactMethod: e.target.value })} placeholder="Email or Phone number here" className="mt-1.5 bg-white" /></div>
       </div>
       
@@ -133,13 +174,45 @@ const SeafarersCentreForm = ({ onClose }: FormProps) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Mock API submission
-    setTimeout(() => {
+    const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSecH3r9gEfMk9aP7qq-p5zyPqLarGHD3TpTgydxSaV_Vemmlg/formResponse";
+    const formData = new URLSearchParams();
+
+    formData.append("entry.1424198996", form.firstName);
+    formData.append("entry.289806566", form.lastName);
+    formData.append("entry.161040312", form.email);
+    formData.append("entry.1028552249", form.shipName);
+    formData.append("entry.1334600406", form.visitDate);
+    formData.append("entry.1425073945", form.visitorCount);
+
+    form.services.forEach(service => {
+      if (service === 'Other' && form.servicesOther) {
+        formData.append("entry.854101858", "__other_option__");
+        formData.append("entry.854101858.other_option_response", form.servicesOther);
+      } else {
+        formData.append("entry.854101858", service);
+      }
+    });
+
+    formData.append("entry.457678180", form.transportAssistance);
+
+    try {
+      await fetch(formUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formData.toString(),
+      });
+      
       toast({ title: "Visit Planned", description: "We look forward to welcoming you to the Seafarers' Centre!" });
       setForm({ firstName: "", lastName: "", email: "", shipName: "", visitDate: "", visitorCount: "", services: [], servicesOther: "", transportAssistance: "" });
       onClose();
+    } catch (error) {
+      toast({ title: "Submission Error", description: "Something went wrong. Please try again." });
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   return (
