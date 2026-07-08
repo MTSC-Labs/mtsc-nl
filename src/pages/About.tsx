@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/hooks/use-toast";
 import { 
   Facebook, 
   Linkedin, 
@@ -14,7 +17,8 @@ import {
   MapPin, 
   Sparkles,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  X
 } from "lucide-react";
 
 // Hero / About Image
@@ -175,9 +179,189 @@ const teamMembers = [
   }
 ];
 
+// ==========================================
+// FORM COMPONENT
+// ==========================================
+interface FundingFormProps {
+  onClose: () => void;
+}
+
+const FundingForm = ({ onClose }: FundingFormProps) => {
+  const [form, setForm] = useState({
+    first: "", lastName: "", email: "", numbers: "", 
+    interests: [] as string[], amounts: [] as string[], 
+    amountOthers: "", recognition: "", message: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Exact matches to the Google Form options based on the screenshots
+  const interestOptions = [
+    "One-time gift",
+    "Multi-year pledge",
+    "Naming opportunity",
+    "In-kind donation (goods/services)",
+    "Volunteering / other support"
+  ];
+
+  const amountOptions = [
+    "$10,000",
+    "$25,000",
+    "$50,000",
+    "$100,000",
+    "Others"
+  ];
+
+  const recognitionOptions = [
+    "I wish to remain anonymous",
+    "You may recognize my contribution publicly"
+  ];
+
+  const handleInterestChange = (interest: string) => {
+    setForm(prev => ({
+      ...prev,
+      interests: prev.interests.includes(interest)
+        ? prev.interests.filter(i => i !== interest)
+        : [...prev.interests, interest]
+    }));
+  };
+
+  const handleAmountChange = (amount: string) => {
+    setForm(prev => ({
+      ...prev,
+      amounts: prev.amounts.includes(amount)
+        ? prev.amounts.filter(a => a !== amount)
+        : [...prev.amounts, amount]
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLScikpg08smkvaIygimfWiLhbAlJH7EsqS5ucynxA0UXC2YzjQ/formResponse";
+    const formData = new URLSearchParams();
+
+    // Mapping inputs to exact Google Form entry IDs
+    if (form.first) formData.append("entry.2059516948", form.first);
+    if (form.lastName) formData.append("entry.100282496", form.lastName);
+    if (form.email) formData.append("entry.1205197727", form.email);
+    if (form.numbers) formData.append("entry.1804236284", form.numbers);
+
+    form.interests.forEach(interest => {
+      formData.append("entry.1320444905", interest);
+    });
+
+    form.amounts.forEach(amount => {
+      formData.append("entry.315945521", amount);
+    });
+
+    if (form.amountOthers) formData.append("entry.1249304703", form.amountOthers);
+    if (form.recognition) formData.append("entry.1494235667", form.recognition);
+    if (form.message) formData.append("entry.388191583", form.message);
+
+    try {
+      await fetch(formUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: formData.toString(),
+      });
+      
+      toast({ title: "Request Submitted", description: "Thank you for your generous support! Our team will contact you soon." });
+      setForm({ first: "", lastName: "", email: "", numbers: "", interests: [], amounts: [], amountOthers: "", recognition: "", message: "" });
+      onClose();
+    } catch (error) {
+      toast({ title: "Submission Error", description: "Something went wrong. Please try again." });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="rounded-2xl bg-white p-6 md:p-8 shadow-2xl space-y-5 animate-in fade-in slide-in-from-bottom-4 relative text-left text-navy max-w-3xl mx-auto mt-8">
+      <div className="flex items-center justify-between">
+        <h3 className="text-xl font-extrabold text-navy">MTSC-NL- Funding and Support Needs</h3>
+        <button type="button" onClick={onClose} className="text-gray-400 hover:text-coral transition-colors" aria-label="Close form">
+          <X className="h-6 w-6" />
+        </button>
+      </div>
+      
+      <div className="grid sm:grid-cols-2 gap-4 mt-4">
+        <div><Label className="text-navy font-bold">First</Label><Input value={form.first} onChange={e => setForm({ ...form, first: e.target.value })} className="mt-1.5" /></div>
+        <div><Label className="text-navy font-bold">Last Name</Label><Input value={form.lastName} onChange={e => setForm({ ...form, lastName: e.target.value })} className="mt-1.5" /></div>
+        
+        <div><Label className="text-navy font-bold">Email</Label><Input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="mt-1.5" /></div>
+        <div><Label className="text-navy font-bold">Numbers</Label><Input value={form.numbers} onChange={e => setForm({ ...form, numbers: e.target.value })} className="mt-1.5" /></div>
+
+        <div className="sm:col-span-2 mt-2">
+          <Label className="mb-3 block font-bold text-navy">I am interested in supporting: (Select all that apply) *</Label>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {interestOptions.map((opt) => (
+              <label key={opt} className="flex items-center gap-3 cursor-pointer group p-2 rounded-lg hover:bg-warm-gray transition-colors border border-transparent hover:border-border">
+                <input type="checkbox" required={form.interests.length === 0} checked={form.interests.includes(opt)} onChange={() => handleInterestChange(opt)} className="w-4 h-4 text-coral border-gray-300 rounded focus:ring-coral" />
+                <span className="text-sm text-navy font-medium">{opt}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="sm:col-span-2 mt-2">
+          <Label className="mb-3 block font-bold text-navy">Proposed Donation Amount</Label>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {amountOptions.map((opt) => (
+              <label key={opt} className="flex items-center gap-3 cursor-pointer group p-2 rounded-lg hover:bg-warm-gray transition-colors border border-transparent hover:border-border">
+                <input type="checkbox" checked={form.amounts.includes(opt)} onChange={() => handleAmountChange(opt)} className="w-4 h-4 text-coral border-gray-300 rounded focus:ring-coral" />
+                <span className="text-sm text-navy font-medium">{opt}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="sm:col-span-2">
+          <Label className="text-navy font-bold">Others (amount here)</Label>
+          <Input value={form.amountOthers} onChange={e => setForm({ ...form, amountOthers: e.target.value })} className="mt-1.5" />
+        </div>
+
+        <div className="sm:col-span-2 mt-2">
+          <Label className="mb-3 block font-bold text-navy">Recognition Preferences</Label>
+          <div className="grid gap-3">
+            {recognitionOptions.map((opt) => (
+              <label key={opt} className="flex items-center gap-3 cursor-pointer group p-2 rounded-lg hover:bg-warm-gray transition-colors border border-transparent hover:border-border">
+                <input type="radio" name="recognition" value={opt} checked={form.recognition === opt} onChange={(e) => setForm({ ...form, recognition: e.target.value })} className="w-4 h-4 text-coral border-gray-300 focus:ring-coral" />
+                <span className="text-sm text-navy font-medium">{opt}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="sm:col-span-2">
+          <Label className="text-navy font-bold">Message or Questions</Label>
+          <textarea 
+            value={form.message} 
+            onChange={e => setForm({ ...form, message: e.target.value })} 
+            className="flex min-h-[100px] w-full rounded-md border border-input bg-white px-3 py-2 text-sm mt-1.5 resize-y focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          />
+        </div>
+      </div>
+      
+      <Button type="submit" size="lg" disabled={isSubmitting} className="w-full bg-coral hover:bg-coral-light text-white font-bold h-12 mt-4">
+        {isSubmitting ? "Submitting..." : "Submit Inquiry"}
+      </Button>
+    </form>
+  );
+};
+
+
+// ==========================================
+// MAIN COMPONENT
+// ==========================================
 const About = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleItems, setVisibleItems] = useState(1);
+  
+  // State for the new Funding Form
+  const [showFundingForm, setShowFundingForm] = useState(false);
+  const formContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -764,14 +948,27 @@ const About = () => {
           {/* Funding & Programs */}
           <div className="bg-gradient-hero text-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 md:p-14 shadow-xl relative overflow-hidden">
              <div className="absolute -top-12 -right-12 h-40 w-40 sm:h-64 sm:w-64 rounded-full bg-coral/30 blur-3xl pointer-events-none" />
+             
              <div className="relative z-10 text-center mb-8 sm:mb-10">
                <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 sm:mb-4">Funding and Support Needs: Help Us Reach Our Goals</h3>
                <p className="text-sm sm:text-lg text-white/90 max-w-2xl mx-auto mb-6 sm:mb-8 font-medium">
                  To achieve these ambitious goals, we are seeking $500,000 in startup capital for the first year.
                </p>
-               <Button asChild size="lg" className="bg-white text-navy hover:bg-white/90 font-bold h-12 w-full sm:w-auto px-6 sm:px-10 text-base sm:text-lg shadow-warm">
-                 <a href="https://www.canadahelps.org/en/dn/73316" target="_blank" rel="noopener noreferrer">Help us</a>
-               </Button>
+               
+               {!showFundingForm ? (
+                 <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+                   <Button onClick={() => {
+                     setShowFundingForm(true);
+                     setTimeout(() => formContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+                   }} size="lg" className="bg-white text-navy hover:bg-white/90 font-bold h-12 w-full sm:w-auto px-6 sm:px-10 text-base sm:text-lg shadow-warm">
+                     Partner With Us
+                   </Button>
+                 </div>
+               ) : (
+                 <div ref={formContainerRef}>
+                   <FundingForm onClose={() => setShowFundingForm(false)} />
+                 </div>
+               )}
              </div>
              
              <div className="relative z-10 pt-8 sm:pt-10 border-t border-white/20">

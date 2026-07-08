@@ -294,7 +294,7 @@ export const SiteHeader = () => {
           <div className="flex-1 overflow-hidden p-1 sm:p-2 bg-muted/20">
             <div className="w-full h-full bg-white rounded-lg border border-border overflow-hidden">
               <iframe
-                src="https://www.canadahelps.org/en/dn/145961"
+                src="https://www.canadahelps.org/en/dn/73316"
                 title="CanadaHelps Secure Donation Form"
                 className="w-full h-full border-none block bg-transparent"
                 allow="payment"
