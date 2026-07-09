@@ -48,7 +48,7 @@ const Index = () => {
                   src={skyline}
                   alt="Skyline"
                   aria-hidden="true"
-                  className="absolute bottom-[90%] -right-10 w-28 md:w-40 opacity-80 animate-float pointer-events-none z-0"
+                  className="absolute bottom-[90%] -right-0 w-28 md:w-40 opacity-80 animate-float pointer-events-none z-0"
                   loading="lazy"
                 />
                 <span className="eyebrow bg-white/50 backdrop-blur inline-block px-2 py-1 rounded-md relative z-10">
