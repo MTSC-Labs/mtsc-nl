@@ -598,20 +598,39 @@ const About = () => {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
-            <div className="flex flex-col items-center text-center bg-warm-gray border border-border rounded-2xl p-6 sm:p-8 shadow-card">
-              <img src={walterImg} alt="Rev. Eric Phinney" className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 object-cover rounded-full shadow-soft mb-4 sm:mb-6" />
-              <h3 className="text-lg sm:text-xl font-bold text-navy">Rev. Eric Phinney, Regional Director</h3>
-              <p className="text-text-mid text-sm sm:text-base font-medium mt-2 break-all">Email: eric.phinney@mtsmail.org</p>
-              <p className="text-text-mid text-sm sm:text-base font-medium mt-1">Phone: 1-506-643-0799</p>
-            </div>
-            <div className="flex flex-col items-center text-center bg-warm-gray border border-border rounded-2xl p-6 sm:p-8 shadow-card">
-              <img src={kellyMcImg} alt="Marsha Clyne" className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 object-cover rounded-full shadow-soft mb-4 sm:mb-6" />
-              <h3 className="text-lg sm:text-xl font-bold text-navy">Marsha Clyne, Regional Fundraising Manager</h3>
-              <p className="text-text-mid text-sm sm:text-base font-medium mt-2 break-all">Email: marsha.clyne@missiontoseafarers.ca</p>
-              <p className="text-text-mid text-sm sm:text-base font-medium mt-1">Phone: 1-647-773-4841</p>
-            </div>
-          </div>
+         <div className="grid sm:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
+  <div className="flex flex-col items-center text-center bg-warm-gray border border-border rounded-2xl p-6 sm:p-8 shadow-card">
+    <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full bg-navy text-white flex items-center justify-center text-3xl sm:text-4xl md:text-5xl font-bold shadow-soft mb-4 sm:mb-6">
+      EP
+    </div>
+
+    <h3 className="text-lg sm:text-xl font-bold text-navy">
+      Rev. Eric Phinney, Regional Director
+    </h3>
+    <p className="text-text-mid text-sm sm:text-base font-medium mt-2 break-all">
+      Email: eric.phinney@mtsmail.org
+    </p>
+    <p className="text-text-mid text-sm sm:text-base font-medium mt-1">
+      Phone: 1-506-643-0799
+    </p>
+  </div>
+
+  <div className="flex flex-col items-center text-center bg-warm-gray border border-border rounded-2xl p-6 sm:p-8 shadow-card">
+    <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full bg-navy text-white flex items-center justify-center text-3xl sm:text-4xl md:text-5xl font-bold shadow-soft mb-4 sm:mb-6">
+      MC
+    </div>
+
+    <h3 className="text-lg sm:text-xl font-bold text-navy">
+      Marsha Clyne, Regional Fundraising Manager
+    </h3>
+    <p className="text-text-mid text-sm sm:text-base font-medium mt-2 break-all">
+      Email: marsha.clyne@missiontoseafarers.ca
+    </p>
+    <p className="text-text-mid text-sm sm:text-base font-medium mt-1">
+      Phone: 1-647-773-4841
+    </p>
+  </div>
+</div>
         </div>
       </section>
 
