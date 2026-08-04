@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 
 import lounge from "@/assets/Algoma-Bear-Visit-21.avif";
-import heroBg from "@/assets/SeasurferSupport.avif"; 
+import heroBg from "@/assets/SaintJohnport.jpg"; 
 import religiousImg from "@/assets/religiousservice.webp";
 import transportImg from "@/assets/Transportation Assistance.jpg";
 
@@ -645,10 +645,10 @@ const Support = () => {
             </span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-            Anchored in Care, Visits, Support, Resources, Adventure and Connection
+            Support While You’re at Port
           </h1>
           <p className="text-lg md:text-xl text-white/80 leading-relaxed font-medium">
-            It is our mission to visit every ship that arrives at the ports of Newfoundland and Labrador
+           Wherever you’re from, you are welcome here. We’re here to support you with practical help, connection and care while you’re in Newfoundland and Labrador.
           </p>
         </div>
       </section>

@@ -87,8 +87,8 @@ export const SiteFooter = () => {
               <MapPin className="h-4 w-4 mt-0.5 shrink-0 text-coral-light" />
               <span className="leading-relaxed">
                 <span className="block font-semibold text-white mb-1">Location</span>
-                P.O. Box 1432 Stn C.<br />
-                St Johns NL A1C 5N8
+                687 Water Street, 2nd Floor<br />
+                St. John’s, NL A1E 1B5
               </span>
             </li>
             <li className="flex gap-2.5">

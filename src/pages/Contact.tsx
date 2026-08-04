@@ -240,24 +240,22 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Global Ports Section */}
+      {/* Global Ports / National Website Section */}
       <section className="py-20 bg-white border-t border-border">
         <div className="container-page max-w-4xl mx-auto text-center">
           <Globe2 className="w-12 h-12 text-coral mx-auto mb-6" />
           <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-4">Our ports and Seafarers Centers</h2>
           <p className="text-lg text-text-mid mb-8 font-medium leading-relaxed max-w-2xl mx-auto">
-            For information on the ports we serve or to reach a local Seafarers’ Centre, please visit our global port directory.
+            For information on the ports we serve or to reach a local Seafarers’ Centre, please visit our <a href="https://mtsc.ca/" target="_blank" rel="noopener noreferrer" className="text-coral font-bold hover:underline">national website</a>.
           </p>
           <Button asChild size="lg" className="bg-coral hover:bg-coral-light text-white font-bold h-14 px-8 text-lg shadow-warm">
-            <a href="https://www.missiontoseafarers.org/our-ports" target="_blank" rel="noopener noreferrer">
-              Global port directory
+            <a href="https://mtsc.ca/" target="_blank" rel="noopener noreferrer">
+              Visit National Website
             </a>
           </Button>
         </div>
       </section>
 
-      {/* Follow Us Section */}
-     
     </>
   );
 };

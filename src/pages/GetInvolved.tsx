@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import {
-  Heart, Briefcase, Users, DollarSign, HandHeart, CheckCircle2, X, Gift, Mail
+  Heart, Package, Briefcase, Users, HandHeart, CheckCircle2, X, Gift, Mail
 } from "lucide-react";
 
 // Image import for the Hero Background & Maritime Design
@@ -20,6 +20,61 @@ import maritimeImage from "@/assets/GTimagemaritime.jpg";
 interface FormProps {
   onClose: () => void;
 }
+
+const DonateGoodsForm = ({ onClose }: FormProps) => {
+  const [form, setForm] = useState({ name: "", email: "", phone: "", category: "", description: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Mock API submission for Newfoundland and Labrador to prevent sending data to Toronto's Google form
+    setTimeout(() => {
+      toast({ title: "Offer Received", description: "Thank you! Your donation offer has been received. Our team will contact you shortly." });
+      setForm({ name: "", email: "", phone: "", category: "", description: "" });
+      onClose();
+      setIsSubmitting(false);
+    }, 1500);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="relative rounded-2xl bg-white p-6 md:p-8 shadow-card space-y-5 animate-in fade-in slide-in-from-bottom-4">
+      <button type="button" onClick={onClose} className="absolute top-6 right-6 text-text-mid hover:text-navy transition-colors"><X size={24} /></button>
+
+      <div className="flex items-center gap-2 mb-2 pr-8">
+        <Package className="h-6 w-6 text-coral" />
+        <h3 className="text-2xl font-extrabold text-navy">Donate Goods or Services</h3>
+      </div>
+      <p className="text-sm text-text-mid mb-4">
+        Thank you for your interest in supporting the Newfoundland and Labrador Station through in-kind gifts. Please fill out the form below so we can coordinate your donation.
+      </p>
+
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div><Label>Full Name *</Label><Input required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} className="mt-1.5 bg-warm-gray" /></div>
+        <div><Label>Email Address *</Label><Input type="email" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="mt-1.5 bg-warm-gray" /></div>
+        <div><Label>Phone Number</Label><Input type="tel" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} className="mt-1.5 bg-warm-gray" /></div>
+        <div>
+          <Label>Donation Type *</Label>
+          <select required value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} className="flex h-10 w-full rounded-md border border-input bg-warm-gray px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring mt-1.5">
+            <option value="" disabled>Select a category...</option>
+            <option value="Snacks and refreshments">Snacks and refreshments</option>
+            <option value="Gift cards">Gift cards</option>
+            <option value="Technology and Wi-Fi support">Technology and Wi-Fi support</option>
+            <option value="Haircut supplies and personal care items">Haircut supplies and personal care items</option>
+            <option value="Furniture and lounge items for the station">Furniture and lounge items for the station</option>
+            <option value="Professional Services">Professional Services</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div className="sm:col-span-2"><Label>Description of Items / Services *</Label><Textarea rows={4} required value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="mt-1.5 bg-warm-gray" placeholder="Please describe what you would like to donate..." /></div>
+      </div>
+      <Button type="submit" size="lg" disabled={isSubmitting} className="w-full bg-coral hover:bg-coral-light text-white font-bold h-12">
+        {isSubmitting ? "Submitting..." : "Submit Donation Offer"}
+      </Button>
+    </form>
+  );
+};
 
 const CorporateSponsorForm = ({ onClose }: FormProps) => {
   const [form, setForm] = useState({ 
@@ -62,7 +117,7 @@ const CorporateSponsorForm = ({ onClose }: FormProps) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Mock API submission since actual Google Form endpoints for these new fields are unknown
+    // Mock API submission
     setTimeout(() => {
       toast({ title: "Inquiry Submitted", description: "Thank you for reaching out! Our partnerships team will be in touch soon." });
       onClose();
@@ -76,10 +131,10 @@ const CorporateSponsorForm = ({ onClose }: FormProps) => {
 
       <div className="flex items-center gap-2 mb-2 pr-8">
         <Briefcase className="h-6 w-6 text-coral" />
-        <h3 className="text-2xl font-extrabold text-navy">Become a Corporate Sponsor</h3>
+        <h3 className="text-2xl font-extrabold text-navy">Partner With Us</h3>
       </div>
       <p className="text-sm text-text-mid mb-4">
-        Partner with us for lasting impact. Fill out the inquiry form below.
+        Partner with the Newfoundland and Labrador station for lasting impact. Fill out the inquiry form below.
       </p>
 
       <div className="grid sm:grid-cols-2 gap-4">
@@ -132,7 +187,7 @@ const CorporateSponsorForm = ({ onClose }: FormProps) => {
         </div>
       </div>
       <Button type="submit" size="lg" disabled={isSubmitting} className="w-full bg-coral hover:bg-coral-light text-white font-bold h-12">
-        {isSubmitting ? "Submitting..." : "Submit"}
+        {isSubmitting ? "Submitting..." : "Submit Partnership Inquiry"}
       </Button>
     </form>
   );
@@ -297,13 +352,14 @@ const GetInvolved = () => {
   };
 
   const actionCards = [
-    { id: 'volunteer', icon: Users, title: "Volunteer", desc: "Share your time & skills", isExternal: false },
-    { id: 'partner', icon: Briefcase, title: "Become a Corporate Sponsor", desc: "Corporate & community support", isExternal: false },
-    { id: 'ecard', icon: Mail, title: "Send a Seafarer a Card", desc: "Words of encouragement", isExternal: true, link: "https://www.canadahelps.org/en/donate/ecard-donation/" },
+    { id: 'goods', icon: Package, title: "Donate Goods", desc: "Wish list & in-kind gifts" },
+    { id: 'partner', icon: Briefcase, title: "Partner With Us", desc: "Corporate & community support" },
+    { id: 'volunteer', icon: Users, title: "Volunteer", desc: "Share your time & skills" },
   ];
 
   const renderActiveForm = () => {
     switch (activeForm) {
+      case 'goods': return <DonateGoodsForm onClose={() => setActiveForm(null)} />;
       case 'partner': return <CorporateSponsorForm onClose={() => setActiveForm(null)} />;
       case 'volunteer': return <VolunteerForm onClose={() => setActiveForm(null)} />;
       default: return null;
@@ -314,6 +370,7 @@ const GetInvolved = () => {
     <>
       {/* ─────────── HERO SECTION ─────────── */}
       <section className="relative pt-28 pb-20 md:pt-36 md:pb-28 overflow-hidden bg-navy min-h-[45vh] flex items-center justify-center">
+        {/* Background Image & Overlays */}
         <div className="absolute inset-0 z-0">
           <img 
             src={getInvolvedBg} 
@@ -323,67 +380,87 @@ const GetInvolved = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy/60 to-transparent" />
         </div>
         
+        {/* Hero Content */}
         <div className="container-page relative z-10 text-center max-w-4xl mx-auto">
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-coral/20 text-coral-light text-xs font-extrabold uppercase tracking-widest mb-6 border border-coral/30">
             Get Involved
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-            Get involved with us Newfoundland and Labrador
+            Get Involved with Mission to Seafarers Newfoundland and Labrador
           </h1>
-          <p className="text-lg md:text-xl text-white/80 leading-relaxed font-medium">
-            We have over 1.89 million seafarers all over the world
+          <p className="text-lg md:text-xl text-white/80 leading-relaxed font-medium mb-8">
+            Whether you volunteer, donate, attend an event or simply help us welcome a seafarer, you become part of a connected network of care reaching from Newfoundland and Labrador to ports around the world.
           </p>
+          <Button size="lg" onClick={() => scrollToSection('get-involved-donate')} className="bg-coral hover:bg-coral-light text-white font-bold h-14 px-10 text-lg">
+            Get Involved
+          </Button>
         </div>
       </section>
 
-      {/* Intro Context Section */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container-page max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-6">
-            Get Involved: Support the seafarers who support the world.
-          </h2>
-          <p className="text-lg text-text-mid leading-relaxed font-medium">
-            At Mission to Seafarers Canada, we believe in the power of community and compassion. Seafarers are the unsung heroes of global trade, but their lives at sea are often filled with isolation, hardship, and long stretches away from home. By getting involved with our mission, you help provide the care, comfort, and connection these hardworking individuals need.
-          </p>
-          <p className="text-lg text-text-mid leading-relaxed font-medium mt-4">
-            There are many ways you can make a real difference. Whether you choose to donate, volunteer, or send a message of encouragement, your involvement directly impacts the lives of seafarers who pass through our ports. Here’s how you can join us in supporting seafarers.
-          </p>
-        </div>
-      </section>
-
-      {/* Financial Donations Section */}
-      <section id="donate" className="py-20 md:py-28 bg-warm-gray border-t border-border overflow-hidden">
+      {/* ─────────── GET INVOLVED & DONATE SECTION (Two-Part Layout) ─────────── */}
+      <section id="get-involved-donate" className="py-20 md:py-28 bg-white overflow-hidden scroll-mt-24">
         <div className="container-page">
-          <div className={`grid gap-12 items-start transition-all duration-500 ${isDonateActive ? 'lg:grid-cols-12 lg:gap-16' : 'max-w-4xl mx-auto'}`}>
+          <div className={`grid gap-12 items-start transition-all duration-500 ${isDonateActive ? 'lg:grid-cols-12 lg:gap-16' : 'max-w-6xl mx-auto'}`}>
 
-            {/* Left Content Context */}
-            <div className={`${isDonateActive ? 'lg:col-span-5' : 'lg:col-span-12'} space-y-8`}>
-              <div className={`${!isDonateActive && 'text-center max-w-2xl mx-auto'}`}>
-                <span className={`eyebrow flex items-center gap-2 mb-3 ${!isDonateActive && 'justify-center'}`}><DollarSign className="w-5 h-5" /> Donate</span>
-                <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-4">Help Us Provide Critical Support to Seafarers.</h2>
-                <p className="text-lg text-text-mid leading-relaxed">
-                  Your donation directly funds the services that seafarers depend on. From ship visits and pastoral care to mental health support and Seafarers’ Centers, your contribution ensures that we can continue to provide vital resources for seafarers who often face isolation and mental health challenges during their long journeys.
-                </p>
-              </div>
-
-              <div className={`grid gap-6 ${!isDonateActive ? 'sm:grid-cols-2' : 'grid-cols-1'}`}>
-                <div className="bg-white rounded-2xl p-6 md:p-8 border border-border relative overflow-hidden flex flex-col shadow-soft">
-                  <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none"><Heart size={80} /></div>
-                  <h3 className="text-xl font-extrabold text-navy mb-3">Monthly Donors</h3>
-                  <p className="text-sm text-text-mid mb-5 flex-grow">
-                    By becoming a monthly donor, you help us plan for consistent care and sustainable support for seafarers. Your regular contributions allow us to expand our services and ensure that every seafarer receives the support they deserve.
+            {/* Left Content Context (or full width if not active) */}
+            <div className={`${isDonateActive ? 'lg:col-span-5' : 'lg:col-span-12'}`}>
+              
+              <div className={`grid gap-6 ${!isDonateActive ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
+                
+                {/* Part One: Get Involved */}
+                <div className="bg-warm-gray rounded-2xl p-6 md:p-8 border border-border flex flex-col h-full relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none"><Users size={80} /></div>
+                  <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-4">
+                    Help Us Welcome Seafarers to Newfoundland and Labrador
+                  </h3>
+                  <p className="text-sm text-text-mid mb-5">
+                    There are many ways to support our station and the seafarers we serve. You can:
                   </p>
-                  <p className="text-coral font-bold text-sm mb-6">Your generosity makes a world of difference.</p>
-                  <Button onClick={handleDonateClick} className="w-full bg-coral hover:bg-coral-light text-white font-bold mt-auto h-12">
+                  <ul className="space-y-3 mb-6 flex-grow">
+                    <li className="flex gap-2 items-start"><CheckCircle2 className="text-coral w-4 h-4 shrink-0 mt-0.5" /><span className="text-sm font-medium text-navy">Volunteer at the station or during local events</span></li>
+                    <li className="flex gap-2 items-start"><CheckCircle2 className="text-coral w-4 h-4 shrink-0 mt-0.5" /><span className="text-sm font-medium text-navy">Donate snacks, refreshments, gift cards, furniture or supplies</span></li>
+                    <li className="flex gap-2 items-start"><CheckCircle2 className="text-coral w-4 h-4 shrink-0 mt-0.5" /><span className="text-sm font-medium text-navy">Support haircut and wellness services for seafarers</span></li>
+                    <li className="flex gap-2 items-start"><CheckCircle2 className="text-coral w-4 h-4 shrink-0 mt-0.5" /><span className="text-sm font-medium text-navy">Help furnish and maintain a welcoming station space</span></li>
+                    <li className="flex gap-2 items-start"><CheckCircle2 className="text-coral w-4 h-4 shrink-0 mt-0.5" /><span className="text-sm font-medium text-navy">Support a local project or event</span></li>
+                    <li className="flex gap-2 items-start"><CheckCircle2 className="text-coral w-4 h-4 shrink-0 mt-0.5" /><span className="text-sm font-medium text-navy">Become a community or business partner</span></li>
+                  </ul>
+                  <p className="text-xs text-text-mid italic mb-6">
+                    Local volunteers, supporters and community partners help make Mission to Seafarers Newfoundland and Labrador possible.
+                  </p>
+                  <Button asChild className="w-full bg-navy hover:bg-navy-light text-white font-bold mt-auto">
+                    <Link to="/contact">Contact the Newfoundland and Labrador Station</Link>
+                  </Button>
+                </div>
+
+                {/* Part Two: Donate */}
+                <div className="bg-white rounded-2xl p-6 md:p-8 border border-border shadow-soft flex flex-col h-full relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none"><HandHeart size={80} /></div>
+                  <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-4">
+                    Help Care for Seafarers
+                  </h3>
+                  <p className="text-sm text-text-mid mb-4">
+                    Every gift helps us provide hospitality, transportation, Wi-Fi, refreshments and a welcoming place for seafarers visiting Newfoundland and Labrador.
+                  </p>
+                  <p className="text-sm text-text-mid mb-3 font-bold">You can:</p>
+                  <ul className="space-y-3 mb-6 flex-grow">
+                    <li className="flex gap-2 items-start"><CheckCircle2 className="text-coral w-4 h-4 shrink-0 mt-0.5" /><span className="text-sm font-medium text-navy">Become a monthly donor</span></li>
+                    <li className="flex gap-2 items-start"><CheckCircle2 className="text-coral w-4 h-4 shrink-0 mt-0.5" /><span className="text-sm font-medium text-navy">Make a one-time gift</span></li>
+                    <li className="flex gap-2 items-start"><CheckCircle2 className="text-coral w-4 h-4 shrink-0 mt-0.5" /><span className="text-sm font-medium text-navy">Support Mission to Seafarers Newfoundland and Labrador through Mission to Seafarers Canada</span></li>
+                  </ul>
+                  <p className="text-xs text-text-mid italic mb-6">
+                    National donations and partnerships help strengthen the work of Mission to Seafarers Canada across the country. Donations are processed through Mission to Seafarers Canada in support of the Newfoundland and Labrador station and the wider Mission across Canada.
+                  </p>
+                  <Button onClick={handleDonateClick} className="w-full bg-coral hover:bg-coral-light text-white font-bold mt-auto">
                     Donate Now
                   </Button>
                 </div>
+                
               </div>
             </div>
 
             {/* Right Side - CanadaHelps Iframe Form (Only renders when active) */}
             {isDonateActive && (
-              <div id="donation-form" className="lg:col-span-7 bg-white p-4 md:p-6 rounded-2xl border border-border shadow-card lg:sticky lg:top-24 animate-in slide-in-from-right-8 fade-in duration-500 scroll-mt-24">
+              <div id="donation-form" className="lg:col-span-7 bg-warm-gray p-4 md:p-6 rounded-2xl border border-border shadow-card lg:sticky lg:top-24 animate-in slide-in-from-right-8 fade-in duration-500 scroll-mt-24">
                 <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-3">
                     <Gift className="text-coral h-6 w-6" />
@@ -395,7 +472,7 @@ const GetInvolved = () => {
                 </div>
                 <div className="w-full bg-white rounded-xl border border-border overflow-hidden shadow-inner h-[750px] sm:h-[750px] md:h-[740px]">
                   <iframe
-                    src="https://www.canadahelps.org/en/dn/73316"
+                    src="https://www.canadahelps.org/en/dn/145961"
                     title="CanadaHelps Secure Donation Form"
                     className="w-full h-full border-none block bg-transparent"
                     scrolling="auto"
@@ -409,7 +486,7 @@ const GetInvolved = () => {
         </div>
       </section>
 
-      {/* Interactive Forms / Ways to Help Section */}
+      {/* ─────────── WAYS TO HELP FORMS ─────────── */}
       <section id="ways-to-help" className="relative py-20 md:py-28 scroll-mt-24 overflow-hidden">
         
         {/* Background Image Added to this Section with Navy Blue Overlay */}
@@ -419,131 +496,90 @@ const GetInvolved = () => {
             alt="Ways to help background" 
             className="w-full h-full object-cover object-center " 
           />
+          {/* Blue overlay to match design and ensure text readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-navy/80 via-navy/60 to-navy/90" />
         </div>
 
         <div className="container-page relative z-10">
           <div className="text-center mb-10">
+            {/* Styled "eyebrow" specifically for the dark background */}
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-coral-light text-xs font-extrabold uppercase tracking-widest mb-4 border border-coral/30">
-              Ways to Get Involved
+              Other Ways to Help
             </span>
             <h2 className="text-3xl md:text-4xl font-extrabold text-white">Choose How You Would Like to Support</h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12 max-w-4xl mx-auto">
-            {actionCards.map((card) => {
-              if (card.isExternal) {
-                return (
-                  <a
-                    key={card.id}
-                    href={card.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-6 rounded-xl border text-center transition-all hover:shadow-card hover:-translate-y-1 border-coral/90 bg-coral text-white block"
-                  >
-                    <card.icon className="h-10 w-10 mx-auto mb-4 text-white" />
-                    <h3 className="font-bold mb-2 text-lg text-white">{card.title}</h3>
-                    <p className="text-sm text-white/90">{card.desc}</p>
-                  </a>
-                );
-              }
-              return (
-                <button
-                  key={card.id}
-                  type="button"
-                  onClick={() => {
-                    setActiveForm(activeForm === card.id ? null : card.id);
-                    if (activeForm !== card.id) {
-                      setTimeout(() => scrollToSection('ways-to-help-forms'), 100);
-                    }
-                  }}
-                  className={`form-trigger-btn p-6 rounded-xl border text-center transition-all hover:shadow-card hover:-translate-y-1 ${
-                    activeForm === card.id 
-                      ? "border-coral bg-coral-pale shadow-md" 
-                      : "border-coral/90 bg-coral text-white"
-                  }`}
-                >
-                  <card.icon className={`h-10 w-10 mx-auto mb-4 ${activeForm === card.id ? "text-coral" : "text-white"}`} />
-                  <h3 className={`font-bold mb-2 text-lg ${activeForm === card.id ? "text-navy" : "text-white"}`}>{card.title}</h3>
-                  <p className={`text-sm ${activeForm === card.id ? "text-text-mid" : "text-white/90"}`}>{card.desc}</p>
-                </button>
-              );
-            })}
+            {actionCards.map((card) => (
+              <button
+                key={card.id}
+                type="button"
+                onClick={() => {
+                  setActiveForm(activeForm === card.id ? null : card.id);
+                  if (activeForm !== card.id) {
+                    setTimeout(() => scrollToSection('ways-to-help-forms'), 100);
+                  }
+                }}
+                className={`form-trigger-btn p-6 rounded-xl border text-center transition-all hover:shadow-card hover:-translate-y-1 ${
+                  activeForm === card.id 
+                    ? "border-coral bg-coral-pale shadow-md" 
+                    : "border-coral/90 bg-coral text-white"
+                }`}
+              >
+                <card.icon className={`h-10 w-10 mx-auto mb-4 ${activeForm === card.id ? "text-coral" : "text-white"}`} />
+                <h3 className={`font-bold mb-2 text-lg ${activeForm === card.id ? "text-navy" : "text-white"}`}>{card.title}</h3>
+                <p className={`text-sm ${activeForm === card.id ? "text-text-mid" : "text-white/90"}`}>{card.desc}</p>
+              </button>
+            ))}
           </div>
 
           <div id="ways-to-help-forms" className="max-w-3xl mx-auto scroll-mt-32" ref={formContainerRef}>
-            {renderActiveForm()}
+            {
+              renderActiveForm()
+            }
           </div>
         </div>
       </section>
 
-      {/* Details Sections (Hidden when forms are active) */}
-      <section className={`py-16 md:py-24 bg-white border-t border-border transition-all duration-300 ${activeForm ? 'opacity-50 pointer-events-none hidden' : 'opacity-100 block'}`}>
-        <div className="container-page grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          
-          {/* Left Column */}
-          <div className="space-y-12">
-            <div>
-              <h3 className="text-2xl font-extrabold text-navy mb-4 flex items-center gap-2"><Heart className="text-coral" /> Why Get Involved?</h3>
-              <p className="text-text-mid mb-4 leading-relaxed font-medium">Seafarers are vital to the global economy, but their work often leaves them isolated, stressed, and away from their families for months. By getting involved with Mission to Seafarers Canada, you provide the support and connection that seafarers desperately need.</p>
-              <ul className="list-disc list-inside text-sm text-navy font-medium space-y-2 mb-6 ml-2">
-                <li><strong className="text-navy">Ship visits:</strong> To offer emotional and practical support</li>
-                <li><strong className="text-navy">Seafarers’ Centres:</strong> for a safe, welcoming place to rest, recharge, and reconnect</li>
-                <li><strong className="text-navy">Mental health resources:</strong> Benefits include making a global impact and supporting seafarers across multiple regions.</li>
-              </ul>
-              <p className="text-text-mid leading-relaxed font-medium mb-4">Your support, whether through volunteering, donating, or sponsoring, helps us continue providing care, comfort, and connection to those who keep global trade moving.<br/><br/>Together, we can create a community of care, showing seafarers they are never alone.</p>
-              <p className="font-bold text-coral text-lg mb-6">Join us today and make a difference!</p>
-              <Button asChild variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white h-12 px-8">
-                <Link to="/contact">Contact Us</Link>
+      {/* ─────────── IN KIND & PARTNER INFO ─────────── */}
+      <section className={`py-16 bg-white border-t border-border transition-all duration-300 ${activeForm ? 'opacity-50 pointer-events-none hidden' : 'opacity-100 block'}`}>
+        <div className="container-page grid md:grid-cols-2 gap-12">
+          <div>
+            <h3 className="text-2xl font-extrabold text-navy mb-4 flex items-center gap-2"><Package className="text-coral" /> In-Kind Gifts</h3>
+            <p className="text-text-mid mb-4">We are always grateful for donations that help us create a welcoming space. Examples include:</p>
+            <ul className="list-disc list-inside text-sm text-navy font-medium space-y-2 mb-6">
+              <li>Snacks and refreshments</li>
+              <li>Gift cards</li>
+              <li>Technology and Wi-Fi support</li>
+              <li>Haircut supplies and personal care items</li>
+              <li>Furniture and lounge items for the station</li>
+            </ul>
+            <div className="flex flex-wrap gap-3">
+              <Button type="button" onClick={() => { setActiveForm('goods'); scrollToSection('ways-to-help'); }} variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white form-trigger-btn">
+                Donate Goods Form
               </Button>
-            </div>
-
-            <div className="bg-warm-gray p-8 rounded-3xl border border-border">
-              <h3 className="text-2xl font-extrabold text-navy mb-4 flex items-center gap-2"><Users className="text-coral" /> Volunteer Roles</h3>
-              <p className="text-text-mid mb-4">Volunteers are the heart and soul of Mission to Seafarers Canada. Roles Include:</p>
-              <ul className="list-disc list-inside text-sm text-navy font-medium space-y-3 mb-6 ml-2">
-                <li><strong className="text-navy">Ship Visitor:</strong> Bring warmth and comfort to seafarers aboard ships, offering support, supplies, and a friendly face.</li>
-                <li><strong className="text-navy">Center Host:</strong> Welcome seafarers at our Seafarers’ Centres, helping them access resources, connect with loved ones, and find a moment of respite.</li>
-                <li><strong className="text-navy">Personal Shopper:</strong> Assist seafarers with shopping for essentials, from toiletries to SIM cards, ensuring they have what they need during their time ashore.</li>
-                <li><strong className="text-navy">Event Helper:</strong> Support the organization of fundraising and awareness events that help sustain our mission.</li>
-                <li><strong className="text-navy">Communications or Admin Support:</strong> Contribute to outreach efforts, event coordination, and daily operations through administrative or communications support.</li>
-              </ul>
-              <Button type="button" onClick={() => { setActiveForm('volunteer'); scrollToSection('ways-to-help'); }} variant="outline" className="border-coral text-coral hover:bg-coral hover:text-white h-12 px-8 form-trigger-btn">
-                Become a Volunteer
+              {/* External Wishlist Link */}
+              <Button asChild variant="outline" className="border-coral text-coral hover:bg-coral hover:text-white">
+                <a href="https://www.amazon.ca/hz/wishlist/ls/3C9KTQNHTZ0NM?ref_=wl_fv_le." target="_blank" rel="noopener noreferrer">Order from our wishlist</a>
               </Button>
             </div>
           </div>
-
-          {/* Right Column */}
-          <div className="space-y-12">
-            <div>
-              <h3 className="text-2xl font-extrabold text-navy mb-4 flex items-center gap-2"><Briefcase className="text-coral" /> Become a Corporate Sponsor</h3>
-              <p className="text-text-mid mb-4 font-medium leading-relaxed">Your business can play a critical role in supporting the well-being of seafarers around the world. Partnering with Mission to Seafarers Canada as a corporate sponsor creates a lasting impact and helps expand our reach. Corporate sponsorship helps us improve services for visiting crews and raise awareness about the challenges seafarers face.</p>
-              
-              <h4 className="text-lg font-bold text-navy mt-6 mb-3">Sponsorship Tiers Include:</h4>
-              <ul className="list-disc list-inside text-sm text-navy font-medium space-y-2 mb-6 ml-2">
-                <li><strong className="text-navy">Port Partner:</strong> Support vital services at specific ports</li>
-                <li><strong className="text-navy">Crew Care Champion:</strong> Support vital services at specific ports</li>
-                <li><strong className="text-navy">Global Maritime Ally:</strong> Benefits include: Make a global impact, supporting seafarers across multiple regions.</li>
-              </ul>
-
-              <h4 className="text-lg font-bold text-navy mt-6 mb-3">Corporate Sponsorship Benefits Include:</h4>
-              <ul className="list-disc list-inside text-sm text-navy font-medium space-y-2 mb-8 ml-2">
-                <li>Recognition on our website, at events, and in our communications</li>
-                <li>Employee Engagement Opportunities, including volunteer days, team-building activities, and care-package drives</li>
-                <li>Customized Partnership Visibility to showcase your brand’s support for seafarers and the maritime industry</li>
-              </ul>
-
-              <Button type="button" onClick={() => { setActiveForm('partner'); scrollToSection('ways-to-help'); }} variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white h-12 px-8 form-trigger-btn">
-                Contact Us to Become a Sponsor
-              </Button>
-            </div>
+          <div>
+            <h3 className="text-2xl font-extrabold text-navy mb-4 flex items-center gap-2"><Briefcase className="text-coral" /> Partnership Options</h3>
+            <p className="text-text-mid mb-4">We welcome support from local businesses, schools, and groups. You can support:</p>
+            <ul className="list-disc list-inside text-sm text-navy font-medium space-y-2 mb-6">
+              <li>Local events & Volunteer activities</li>
+              <li>Hospitality and care for seafarers</li>
+              <li>Station furnishings and supplies</li>
+              <li>Haircut and wellness services</li>
+            </ul>
+            <Button type="button" onClick={() => { setActiveForm('partner'); scrollToSection('ways-to-help'); }} variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white form-trigger-btn">Partner with the Newfoundland and Labrador Station</Button>
+            <p className="text-xs text-text-mid mt-4 italic">For larger corporate partnerships and national giving opportunities, please visit Mission to Seafarers Canada.</p>
           </div>
-
         </div>
       </section>
 
-      {/* Send an ECard Section */}
+      {/* ─────────── SEND AN ECARD ─────────── */}
       <section className="py-20 md:py-24 bg-warm-gray border-t border-border">
         <div className="container-page max-w-5xl mx-auto">
           <div className="text-center mb-12">
@@ -584,17 +620,14 @@ const GetInvolved = () => {
           </div>
         </div>
       </section>
-     
-      {/* Final Call to Action */}
-      <section className="py-20 bg-coral text-white text-center">
+
+      {/* ─────────── CTA FOOTER ─────────── */}
+      <section className="py-20  bg-coral text-white text-center">
         <div className="container-page max-w-4xl mx-auto">
           <Heart className="mx-auto h-12 w-12 text-white/90 mb-6" />
-          <h2 className="text-3xl md:text-4xl font-extrabold !text-white mb-6">Thank You for Supporting Our Seafarers</h2>
-          <p className="text-lg text-white/90 mb-4 max-w-3xl mx-auto font-medium leading-relaxed">
-            Your compassion helps bring comfort, connection, and care to the men and women who keep our global economy moving. Because of supporters like you, seafarers arriving at our ports feel seen, valued, and welcomed, no matter how far from home they are.
-          </p>
-          <p className="text-xl font-bold text-white mb-10 max-w-3xl mx-auto">
-            Let’s continue to build a community of kindness across the oceans.<br/>Thank you for being part of the journey.
+          <h2 className="text-3xl md:text-4xl font-extrabold !text-white mb-6">Every Act of Kindness Makes a Difference</h2>
+          <p className="text-lg text-white/90 mb-10 max-w-3xl mx-auto">
+            From a warm drink and a haircut to a monthly donation or a few hours of volunteering, every act of support helps remind seafarers that they are not alone.
           </p>
 
           <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-3 sm:gap-4 px-4 sm:px-0">
@@ -607,7 +640,11 @@ const GetInvolved = () => {
             </Button>
 
             <Button size="lg" variant="outline" asChild className="w-full sm:w-auto border-2 border-white text-white hover:bg-white hover:text-navy bg-transparent font-bold h-14 px-6">
-              <Link to="/contact">Contact Us</Link>
+              <Link to="/contact">Contact the Station</Link>
+            </Button>
+
+            <Button size="lg" variant="outline" asChild className="w-full sm:w-auto border-2 border-white text-white hover:bg-white hover:text-navy bg-transparent font-bold h-14 px-6">
+              <a href="https://www.amazon.ca/hz/wishlist/ls/3C9KTQNHTZ0NM?ref_=wl_fv_le." target="_blank" rel="noopener noreferrer">Order from our wishlist</a>
             </Button>
           </div>
         </div>
