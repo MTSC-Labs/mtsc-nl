@@ -8,7 +8,7 @@ import { Mail, Phone, MapPin, Clock, Send, Globe2, Facebook, Linkedin, Youtube }
 
 // Using the About image as a temporary placeholder background 
 // since you mentioned you don't have a specific Contact image yet.
-import contactBg from "@/assets/contact-banner.jpg"; 
+import contactBg from "@/assets/contact-banner.jpg";
 
 const interests = [
   "Seafarer support",
@@ -43,14 +43,14 @@ const Contact = () => {
       <section className="relative pt-28 pb-20 md:pt-36 md:pb-28 overflow-hidden bg-navy min-h-[45vh] flex items-center justify-center border-b border-navy-dark">
         {/* Background Image & Overlays */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src={contactBg} 
-            alt="Contact Background Placeholder" 
-            className="w-full h-full object-cover object-center opacity-40 mix-blend-overlay" 
+          <img
+            src={contactBg}
+            alt="Contact Background Placeholder"
+            className="w-full h-full object-cover object-center opacity-40 mix-blend-overlay"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy/60 to-transparent" />
         </div>
-        
+
         {/* Hero Content */}
         <div className="container-page relative z-10 text-center max-w-4xl mx-auto">
           <div className="mb-6 flex justify-center">
@@ -70,7 +70,7 @@ const Contact = () => {
       {/* Main Content Section */}
       <section className="py-20 md:py-28 bg-white">
         <div className="container-page grid lg:grid-cols-12 gap-10 items-start">
-          
+
           {/* Contact info */}
           <div className="lg:col-span-5 space-y-5">
             <div className="rounded-2xl bg-gradient-hero text-white p-7 md:p-8 shadow-soft">
@@ -84,18 +84,11 @@ const Contact = () => {
                   </span>
                   <span>
                     <span className="block text-white/60 text-[11px] uppercase font-bold tracking-widest">Address</span>
-                    687 Water Street, 2nd Floor St.John's, NL A1E 1B5
+                    687 Water Street, 2nd Floor
+                    St.&nbsp;John's, NL&nbsp;A1E&nbsp;1B5
                   </span>
                 </li>
-                <li className="flex gap-3.5">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white/15">
-                    <MapPin className="h-4 w-4 text-coral-light" />
-                  </span>
-                  <span>
-                    <span className="block text-white/60 text-[11px] uppercase font-bold tracking-widest">Visit Us / Mail</span>
-                    P.O. Box 1432 Stn C. St Johns NL A1C 5N8
-                  </span>
-                </li>
+
                 <li className="flex gap-3.5">
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white/15">
                     <Mail className="h-4 w-4 text-coral-light" />
@@ -131,13 +124,13 @@ const Contact = () => {
             </div>
 
             <div className="rounded-2xl border border-border bg-warm-gray p-2 overflow-hidden h-72 shadow-inner">
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2690.244206463253!2d-52.69266400000001!3d47.601941000000004!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4b0ca148b3fca06f%3A0xbca2e587c54ade57!2sSt.%20John&#39;s%2C%20NL%20A1A%205N8%2C%20Canada!5e0!3m2!1sen!2sus!4v1780885325679!5m2!1sen!2sus" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }} 
-                allowFullScreen 
-                loading="lazy" 
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2690.244206463253!2d-52.69266400000001!3d47.601941000000004!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4b0ca148b3fca06f%3A0xbca2e587c54ade57!2sSt.%20John&#39;s%2C%20NL%20A1A%205N8%2C%20Canada!5e0!3m2!1sen!2sus!4v1780885325679!5m2!1sen!2sus"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
             </div>
@@ -149,54 +142,54 @@ const Contact = () => {
               <Send className="h-6 w-6 text-coral" />
               <h2 className="text-xl md:text-3xl font-extrabold text-navy">Contact us</h2>
             </div>
-            
+
             <p className="text-gray-600 font-medium leading-relaxed pb-4 border-b border-gray-200">
               Have questions about our services? Want to get involved or support our mission? We’re here to connect. We look forward to connecting with you!
             </p>
 
             {/* Hidden iframe triggers handleIframeLoad when Google Form finishes processing */}
-            <iframe 
-              name="hidden_iframe" 
-              id="hidden_iframe" 
+            <iframe
+              name="hidden_iframe"
+              id="hidden_iframe"
               style={{ display: 'none' }}
               onLoad={handleIframeLoad}
             ></iframe>
 
-            <form 
+            <form
               ref={formRef}
-              className="space-y-5" 
-              action="https://docs.google.com/forms/d/e/1FAIpQLSdDRLf8Fjde4Y-q1oUmoa_5JAbmAFp5TeG0RV3qjyVL3Aabhg/formResponse" 
-              method="POST" 
+              className="space-y-5"
+              action="https://docs.google.com/forms/d/e/1FAIpQLSdDRLf8Fjde4Y-q1oUmoa_5JAbmAFp5TeG0RV3qjyVL3Aabhg/formResponse"
+              method="POST"
               target="hidden_iframe"
               onSubmit={() => setIsSubmitting(true)}
             >
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="cname">Name *</Label>
-                  <Input 
-                    id="cname" 
-                    name="entry.2050372848" 
-                    required 
-                    className="mt-1.5 bg-white text-navy font-medium" 
+                  <Input
+                    id="cname"
+                    name="entry.2050372848"
+                    required
+                    className="mt-1.5 bg-white text-navy font-medium"
                   />
                 </div>
                 <div>
                   <Label htmlFor="cemail">Email *</Label>
-                  <Input 
-                    id="cemail" 
-                    type="email" 
-                    name="entry.608487628" 
-                    required 
-                    className="mt-1.5 bg-white text-navy font-medium" 
+                  <Input
+                    id="cemail"
+                    type="email"
+                    name="entry.608487628"
+                    required
+                    className="mt-1.5 bg-white text-navy font-medium"
                   />
                 </div>
                 <div>
                   <Label htmlFor="cphone">Phone</Label>
-                  <Input 
-                    id="cphone" 
-                    type="tel" 
-                    name="entry.278774456" 
-                    className="mt-1.5 bg-white text-navy font-medium" 
+                  <Input
+                    id="cphone"
+                    type="tel"
+                    name="entry.278774456"
+                    className="mt-1.5 bg-white text-navy font-medium"
                   />
                 </div>
                 <div>
@@ -216,19 +209,19 @@ const Contact = () => {
                 </div>
                 <div className="sm:col-span-2">
                   <Label htmlFor="cmessage">Message *</Label>
-                  <Textarea 
-                    id="cmessage" 
-                    name="entry.1454859148" 
-                    required 
-                    rows={5} 
-                    className="mt-1.5 bg-white text-navy font-medium resize-none" 
+                  <Textarea
+                    id="cmessage"
+                    name="entry.1454859148"
+                    required
+                    rows={5}
+                    className="mt-1.5 bg-white text-navy font-medium resize-none"
                   />
                 </div>
               </div>
 
-              <Button 
-                type="submit" 
-                size="lg" 
+              <Button
+                type="submit"
+                size="lg"
                 disabled={isSubmitting}
                 className="w-full bg-coral hover:bg-coral-light text-white font-bold shadow-warm h-12"
               >
@@ -236,7 +229,7 @@ const Contact = () => {
               </Button>
             </form>
           </div>
-          
+
         </div>
       </section>
 

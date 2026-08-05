@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 // Image imports for the Hero Section
-import heroImg from "@/assets/hero-port-toronto.jpg";
+import heroImg from "@/assets/SaintJohnport.jpg";
 import skyline from "@/assets/labradoor-skyline.png";
 
 // Background image imports
@@ -96,7 +96,7 @@ const Index = () => {
                 <img
                   src={heroImg}
                   alt="Aerial view"
-                  className="absolute inset-0 h-full w-full object-cover"
+                  className="absolute inset-0 h-full w-full object-contain"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-navy-dark/60 via-navy/10 to-transparent" />
