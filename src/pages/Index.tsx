@@ -30,9 +30,9 @@ const Index = () => {
       {/* ─────────── HERO ─────────── */}
       <section
         className="relative overflow-hidden bg-cover bg-center bg-no-repeat bg-white"
-        style={{ backgroundImage: `url("${heroImg}")` }}
+        style={{ backgroundImage: `url("${seaImg}")` }} /* CHANGED: Now using seaImg like Toronto */
       >
-        {/* Restored the original light overlay */}
+        {/* Exactly matching Toronto's 60% overlay */}
         <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px]" />
 
         <div className="absolute -top-32 -right-32 h-96 w-96 rounded-full bg-coral/10 blur-3xl z-0" />
@@ -81,7 +81,8 @@ const Index = () => {
               </div>
 
               <div className="mt-8 flex flex-wrap gap-4 relative z-20">
-                <Button asChild size="lg" variant="outline" className="border-2 border-navy text-navy hover:bg-navy hover:text-white font-bold h-12 px-7">
+                {/* Updated to match Toronto's button with bg-white/50 backdrop-blur */}
+                <Button asChild size="lg" variant="outline" className="border-2 border-navy text-navy bg-white/50 backdrop-blur hover:bg-navy hover:text-white font-bold h-12 px-7 cursor-pointer">
                   <Link to="/contact">Contact the Station</Link>
                 </Button>
                 <Button onClick={() => setIsDonateOpen(true)} size="lg" className="bg-coral hover:bg-coral-light text-white font-bold shadow-warm hover:shadow-warm-hover h-12 px-7 cursor-pointer">
@@ -96,7 +97,7 @@ const Index = () => {
                 <img
                   src={heroImg}
                   alt="Aerial view"
-                  className="absolute inset-0 h-full w-full object-contain"
+                  className="absolute inset-0 h-full w-full object-cover"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-navy-dark/60 via-navy/10 to-transparent" />
@@ -114,7 +115,7 @@ const Index = () => {
           </div>
         </div>
 
-        {/* trust strip (restored original light theme) */}
+        {/* trust strip */}
         <div className="border-t border-border bg-white/80 backdrop-blur relative z-10">
           <div className="container-page mx-auto py-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center justify-center">
             {[
@@ -131,6 +132,7 @@ const Index = () => {
           </div>
         </div>
       </section>
+
       {/* ─────────── HOW WE HELP ─────────── */}
       <section className="py-20 md:py-24 bg-white">
         <div className="container-page">
@@ -147,7 +149,6 @@ const Index = () => {
           <h3 className="mt-14 mb-6 text-2xl font-extrabold text-navy text-center">Featured Services</h3>
 
           <div className="grid md:grid-cols-2 gap-5 mb-14">
-            {/* Using exact original card ui */}
             <div className="group rounded-2xl p-7 md:p-8 transition-all hover:-translate-y-1 flex flex-col items-start bg-warm-gray hover:shadow-card-hover">
               <span className="grid h-12 w-12 place-items-center rounded-xl bg-coral-pale mb-4">
                 <Users className="h-6 w-6 text-coral" />
@@ -233,9 +234,7 @@ const Index = () => {
             </p>
           </div>
 
-          {/* Using exact original ui from the volunteer/donate cards */}
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-
             <a href="https://www.missiontoseafarers.org/" target="_blank" rel="noopener noreferrer" className="block rounded-3xl bg-white/95 backdrop-blur p-8 md:p-10 shadow-card hover:shadow-card-hover transition-all border-2 border-coral/15 flex flex-col justify-between">
               <div>
                 <span className="grid h-12 w-12 place-items-center rounded-xl bg-coral-pale text-coral">
@@ -271,7 +270,6 @@ const Index = () => {
                 Visit Website <ArrowRight className="ml-2 h-4 w-4" />
               </div>
             </a>
-
           </div>
         </div>
       </section>
@@ -306,7 +304,6 @@ const Index = () => {
         <div className="container-page relative z-10">
 
           <div className="grid md:grid-cols-2 gap-6">
-            {/* Part One: Get Involved (Using original ui) */}
             <div className="rounded-3xl bg-white/95 backdrop-blur p-8 md:p-10 shadow-card hover:shadow-card-hover transition-all border-2 border-coral/15 flex flex-col justify-between">
               <div>
                 <span className="grid h-12 w-12 place-items-center rounded-xl bg-coral-pale text-coral">
@@ -337,7 +334,6 @@ const Index = () => {
               </Button>
             </div>
 
-            {/* Part Two: Donate (Using original ui) */}
             <div className="rounded-3xl bg-gradient-hero text-white p-8 md:p-10 shadow-soft relative overflow-hidden flex flex-col justify-between">
               <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-coral/30 blur-3xl" />
               <div className="relative flex-1">
