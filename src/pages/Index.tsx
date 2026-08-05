@@ -16,11 +16,13 @@ import {
 
 // Image imports for the Hero Section
 import heroImg from "@/assets/SaintJohnport.jpg";
+import heroImg3 from "@/assets/pocket2.jpeg";
 import skyline from "@/assets/labradoor-skyline.png";
 
 // Background image imports
 import waterImg from "@/assets/water1.jpg";
 import seaImg from "@/assets/sea1.jpg";
+import seaImg2 from "@/assets/old-bg.webp";
 
 const Index = () => {
   const [isDonateOpen, setIsDonateOpen] = useState(false);
@@ -30,10 +32,10 @@ const Index = () => {
       {/* ─────────── HERO ─────────── */}
       <section
         className="relative overflow-hidden bg-cover bg-center bg-no-repeat bg-white"
-        style={{ backgroundImage: `url("${seaImg}")` }} /* CHANGED: Now using seaImg like Toronto */
+        style={{ backgroundImage: `url("${seaImg2}")` }} /* CHANGED: Now using seaImg like Toronto */
       >
         {/* Exactly matching Toronto's 60% overlay */}
-        <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-white/30 backdrop-blur-[2px]" />
 
         <div className="absolute -top-32 -right-32 h-96 w-96 rounded-full bg-coral/10 blur-3xl z-0" />
         <div className="absolute top-1/3 -left-20 h-72 w-72 rounded-full bg-navy/10 blur-3xl z-0" />
@@ -95,7 +97,7 @@ const Index = () => {
             <div className="lg:col-span-5 relative animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
               <div className="relative rounded-2xl overflow-hidden shadow-soft aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5]">
                 <img
-                  src={heroImg}
+                  src={heroImg3}
                   alt="Aerial view"
                   className="absolute inset-0 h-full w-full object-cover"
                   loading="lazy"
@@ -200,7 +202,7 @@ const Index = () => {
               { i: Sparkles, title: "Spiritual Care" },
               { i: Scale, title: "Advocacy and Rights" },
               { i: Users, title: "Community Connection" },
-              { i: Scissors, title: "Haircuts and Wellness" },
+              // { i: Scissors, title: "Haircuts and Wellness" },
               { i: Package, title: "Seafarers Parcel Pickup Service" },
               { i: MapPin, title: "Transportation and Local Guidance" },
               { i: Wifi, title: "Wi-Fi and Communication Tools" },

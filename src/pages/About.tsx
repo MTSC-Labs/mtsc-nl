@@ -485,7 +485,7 @@ const About = () => {
             </div>
           </div>
 
-          <div className="bg-white border border-border rounded-3xl p-8 md:p-12 shadow-sm mb-24 relative overflow-hidden">
+          {/* <div className="bg-white border border-border rounded-3xl p-8 md:p-12 shadow-sm mb-24 relative overflow-hidden">
              <div className="absolute top-0 right-0 p-8 opacity-5">
                <Globe2 className="w-64 h-64 text-navy" />
              </div>
@@ -539,10 +539,10 @@ const About = () => {
                  <a href={regionalImpactPdf} target="_blank" rel="noopener noreferrer">Learn More</a>
                </Button>
              </div>
-          </div>
+          </div> */}
 
           {/* Projected Impact in NL */}
-          <div className="mb-24">
+          {/* <div className="mb-24">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <h3 className="text-3xl md:text-4xl font-extrabold text-navy leading-tight">
                 Projected Impact in Newfoundland and Labrador: Making a Difference in Our First Year
@@ -631,7 +631,7 @@ const About = () => {
                  </p>
                </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 
