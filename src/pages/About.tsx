@@ -48,7 +48,7 @@ import slide13 from "@/assets/Newphotos/WhatsApp Image 2026-07-07 at 10.16.18 AM
 import slide14 from "@/assets/Newphotos/WhatsApp Image 2026-07-07 at 10.16.18 AM (6).jpeg";
 import slide15 from "@/assets/Newphotos/WhatsApp Image 2026-07-07 at 10.16.18 AM (7).jpeg";
 import slide16 from "@/assets/Newphotos/WhatsApp Image 2026-07-07 at 10.16.18 AM (8).jpeg";
-import slide17 from "@/assets/Newphotos/WhatsApp Image 2026-07-07 at 10.16.18 AM.jpeg";
+import slide17 from "@/assets/Newphotos/WhatsApp Image 2026-07-07 at 10.16.17 AM.jpeg";
 import slide18 from "@/assets/Newphotos/WhatsApp Image 2026-07-07 at 10.16.19 AM.jpeg";
 import slide19 from "@/assets/Newphotos/WhatsApp Image 2026-07-07 at 10.16.16 AM (1).jpeg";
 import slide20 from "@/assets/Newphotos/WhatsApp Image 2026-07-07 at 10.16.16 AM (2).jpeg";
@@ -138,7 +138,7 @@ const teamMembers = [
   },
   {
     name: "REV. JUDITH ALLTREE",
-    role: "Regional Director / Mentor",
+    role: "Board Director / Mentor",
     img: judithMainImg,
     bio: (
       <>
@@ -438,7 +438,7 @@ const About = () => {
             </div>
           </div>
 
-          <div className="text-center max-w-4xl mx-auto mb-24">
+          <div className="text-center max-w-4xl mx-auto mb-12">
             <h3 className="text-3xl font-extrabold text-navy mb-6">Impact Beyond Numbers</h3>
             <p className="text-lg text-text-mid leading-relaxed font-medium mb-6">
               Behind each number is a meaningful story: a crew member able to call home thanks to a SIM card we provided, or a seafarer who hadn’t set foot on land for weeks finally stepping ashore. Our impact goes beyond numbers; it’s about human connection and making seafarers feel seen, valued, and cared for. As the maritime industry evolves with disruptions, strikes, and shifting global tides, our mission remains constant: to stand by those who keep global trade moving. With 10 stations and growing, we are committed to providing unwavering support to seafarers across Canada.
@@ -448,41 +448,6 @@ const About = () => {
               <br className="hidden md:block" />
               Will you join us? Your generosity ensures that when the next ship arrives, we’ll be ready, armed with warmth, resources, and a simple message: You are not alone.
             </p>
-          </div>
-
-          <div className="mb-24">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-              <div className="max-w-2xl">
-                <span className="eyebrow">Global Impact</span>
-                <h3 className="mt-4 text-3xl md:text-4xl font-extrabold text-navy leading-tight">
-                  Supporting Seafarers Worldwide
-                </h3>
-                <p className="mt-4 text-lg text-text-mid font-medium leading-relaxed">
-                  The Mission to Seafarers operates in over 200 ports across 50+ countries, delivering vital support through ship visits, seafarers’ centres, mental health services, family outreach, and emergency care. Our Flying Angel Campaign 2025 highlights our global commitment to evolving welfare needs, mental health challenges, and inclusive care.
-                </p>
-              </div>
-              <Button asChild size="lg" className="bg-coral hover:bg-coral-light text-white font-bold h-12 w-full md:w-auto shrink-0 shadow-warm">
-                 <a href={globalImpactPdf} target="_blank" rel="noopener noreferrer">Learn More</a>
-              </Button>
-            </div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                { i: Users, t: "Face-to-Face Ship Visiting", d: "Emotional, spiritual, and crisis support to crews in port." },
-                { i: Navigation, t: "Seafarers Centre Upgrades", d: "Creating modern, safe spaces for rest and recreation." },
-                { i: HeartPulse, t: "Mental Health & Crisis Response", d: "Life-saving interventions with SafeTALK and CISM training." },
-                { i: Smartphone, t: "Digital Innovation", d: "Tools like the Happy at Sea app and Ship Visitor software improve communication." },
-                { i: Globe2, t: "Diversity & Inclusion", d: "Hiring female ship visitors and supporting marginalized seafarers." },
-              ].map(({ i: Icon, t, d }) => (
-                <div key={t} className="rounded-3xl bg-white p-8 shadow-sm hover:shadow-card-hover transition-all flex flex-col items-start border border-border">
-                  <span className="grid h-12 w-12 place-items-center rounded-xl bg-warm-gray text-coral border border-border mb-5">
-                    <Icon className="h-6 w-6" />
-                  </span>
-                  <h5 className="text-lg font-bold text-navy leading-tight mb-3">{t}</h5>
-                  <p className="text-sm text-text-mid leading-relaxed font-medium">{d}</p>
-                </div>
-              ))}
-            </div>
           </div>
 
           {/* <div className="bg-white border border-border rounded-3xl p-8 md:p-12 shadow-sm mb-24 relative overflow-hidden">
