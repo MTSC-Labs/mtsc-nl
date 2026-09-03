@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +15,7 @@ import religiousImg from "@/assets/religiousservice.webp";
 import transportImg from "@/assets/Transportation Assistance.jpg";
 
 // ==========================================
-// FORM COMPONENTS
+// FORM COMPONENTS (Left 100% Intact as Requested)
 // ==========================================
 
 interface FormProps {
@@ -598,19 +598,100 @@ const MentalHealthForm = ({ onClose }: FormProps) => {
 
 
 // ==========================================
-// MAIN COMPONENT
+// MAIN COMPONENT & CMS INTEGRATION
 // ==========================================
+
+const iconMap: Record<string, any> = {
+  Ship,
+  Home,
+  HeartHandshake,
+  Globe,
+};
+
+const defaultData = {
+  hero_badge: 'For Seafarers',
+  hero_title: 'Support While You’re at Port',
+  hero_subtitle: 'Wherever you’re from, you are welcome here. We’re here to support you with practical help, connection and care while you’re in Newfoundland and Labrador.',
+  quick_access_title: 'How Can We Support You Today?',
+  quick_access_cards: [
+    { id: 'visit', icon: 'Ship', title: 'Ship Visits', desc: 'Connect Us Today', isLink: false, isExternal: false, link: '' },
+    { id: 'centre', icon: 'Home', title: 'Seafarers’ Centre', desc: 'Come visit us', isLink: false, isExternal: false, link: '' },
+    { id: 'mental', icon: 'HeartHandshake', title: 'Mental Health Support', desc: 'Reach Out for Support', isLink: false, isExternal: false, link: '' },
+    { id: 'explore', icon: 'Globe', title: 'Explore NL', desc: 'An Adventure Awaits', isLink: true, isExternal: true, link: 'https://www.newfoundlandlabrador.com/' }
+  ],
+  centre_title: 'Seafarers’ Centre',
+  centre_subtitle: 'A Welcoming Haven for Rest and Connection',
+  centre_description: 'Our Seafarers’ Centre is a safe, welcoming space designed to help seafarers relax, recharge, and connect with loved ones. When you come ashore, you can access a variety of services, including',
+  centre_bullets: [
+    { text: 'Free Wi-Fi and phone charging' },
+    { text: 'Comfortable lounge with snacks and drinks' },
+    { text: 'Friendly volunteers available to assist' },
+    { text: 'Local info and support resources on hand' }
+  ],
+  centre_button: 'Come visit us',
+  transport_title: 'Transportation Assistance',
+  transport_subtitle: 'Making Your Time in Port Easier',
+  transport_desc_1: 'Whether you’re staying on board or able to go ashore, our transportation assistance ensures your time in port is as comfortable as possible.',
+  transport_bullets: [
+    { text: 'If you can’t leave the ship, our volunteers can shop for essentials (SIM cards, toiletries, snacks) and deliver them directly to your vessel' },
+    { text: 'If you’re able to go ashore, we can assist with transportation to nearby stores, pharmacies, or other locations to help you get what you need' }
+  ],
+  transport_desc_2: 'We strive to provide fast, friendly, and reliable service to make your visit as stress-free as possible.',
+  transport_button: 'Request Transportation',
+  ship_title: 'Ship Visits',
+  ship_subtitle: 'Connecting Seafarers with Support in Newfoundland and Labrador',
+  ship_description: 'At Mission to Seafarers Newfoundland and Labrador, we are committed to visiting every ship that arrives at our ports. Seafarers often face long voyages with limited access to support during their time in port. Our ship visits provide a vital connection by offering a friendly face, a listening ear, and practical assistance. These visits bridge the gap between life at sea and the world ashore, reminding seafarers that they are seen, valued, and cared for.',
+  ship_callout: 'If you would like to learn more about our ship visit program or request a visit to your vessel, we would be happy to connect with you.',
+  ship_button: 'Connect Us Today',
+  religion_title: 'Religious Services',
+  religion_subtitle: 'Spiritual Support for All Beliefs',
+  religion_description: 'Our chaplain is available to provide spiritual care, regardless of your faith tradition. Whether you seek Anglican, Catholic, Orthodox, or multi-faith services, we are here to support you. We also offer:',
+  religion_bullets: [
+    { text: 'Spiritual care and prayer are available upon request' },
+    { text: 'Quiet space for personal reflection' },
+    { text: 'Faith-based support for all beliefs' }
+  ],
+  religion_button: 'Let Us Connect with You',
+  mental_title: 'Mental Health & Crisis Resources',
+  mental_subtitle: 'Your Well-being is Our Priority',
+  mental_description: 'Life at sea can be stressful, and our Mental Health & Crisis Resources provide confidential emotional and mental health support to seafarers in need:',
+  mental_bullets: [
+    { text: 'Pastoral care and emotional support from our trained team' },
+    { text: 'Referrals to local mental health services and global seafarer support partners' },
+    { text: 'Emergency crisis resources available 24/7' }
+  ],
+  mental_callout: 'You do not have to face challenges alone support is always available when you need it most.',
+  mental_button: 'Reach Out for Support',
+  explore_title: 'Explore Newfoundland & Labrador',
+  explore_subtitle: 'An Adventure Awaits',
+  explore_description: 'Newfoundland and Labrador offer unforgettable natural beauty, historic towns, and warm local hospitality. When you have time ashore, take the opportunity to explore our rugged coastlines, scenic landscapes, and vibrant culture.',
+  explore_button: 'Explore Now',
+  explore_link: 'https://www.newfoundlandlabrador.com/',
+  explore_map_url: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2690.250901896602!2d-52.69271455!3d47.601810799999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4b0ca148b3fca06f%3A0xbca2e587c54ade57!2sSt.%20John&#39;s%2C%20NL%20A1A%205N8%2C%20Canada!5e0!3m2!1sen!2sin!4v1780888530650!5m2!1sen!2sin'
+};
 
 const Support = () => {
   const [activeForm, setActiveForm] = useState<string | null>(null);
+  const [pageData, setPageData] = useState<any>(null);
   const formContainerRef = useRef<HTMLDivElement>(null);
 
-  const quickAccessCards = [
-    { id: 'visit', icon: Ship, title: "Ship Visits", desc: "Connect Us Today" },
-    { id: 'centre', icon: Home, title: "Seafarers’ Centre", desc: "Come visit us" },
-    { id: 'mental', icon: HeartHandshake, title: "Mental Health Support", desc: "Reach Out for Support", isLink: false },
-    { id: 'explore', icon: Globe, title: "Explore NL", desc: "An Adventure Awaits", isLink: true, isExternal: true, link: "https://www.newfoundlandlabrador.com/" }
-  ];
+  useEffect(() => {
+    const fetchPageData = async () => {
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+        const res = await fetch(`${apiUrl}/api/globals/mtscnl-support-page`);
+        if (res.ok) {
+          const data = await res.json();
+          setPageData(data);
+        }
+      } catch (error) {
+        console.error("Error fetching Mtscnl Support Page data:", error);
+      }
+    };
+    fetchPageData();
+  }, []);
+
+  const data = pageData ? { ...defaultData, ...pageData } : defaultData;
 
   const handleCloseForm = () => setActiveForm(null);
 
@@ -641,14 +722,14 @@ const Support = () => {
         <div className="container-page relative z-10 text-center max-w-4xl mx-auto">
           <div className="mb-6 flex justify-center">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-coral/20 text-coral-light text-xs font-extrabold uppercase tracking-widest border border-coral/30">
-              <Ship className="w-4 h-4 text-coral-light" /> For Seafarers
+              <Ship className="w-4 h-4 text-coral-light" /> {data.hero_badge}
             </span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-            Support While You’re at Port
+            {data.hero_title}
           </h1>
           <p className="text-lg md:text-xl text-white/80 leading-relaxed font-medium">
-           Wherever you’re from, you are welcome here. We’re here to support you with practical help, connection and care while you’re in Newfoundland and Labrador.
+           {data.hero_subtitle}
           </p>
         </div>
       </section>
@@ -657,11 +738,13 @@ const Support = () => {
       <section id="quick-access" className="py-20 bg-white scroll-mt-10">
         <div className="container-page">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-navy">How Can We Support You Today?</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-navy">{data.quick_access_title}</h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-            {quickAccessCards.map((card) => {
+            {data.quick_access_cards.map((card: any) => {
+              const IconComponent = iconMap[card.icon] || Ship;
+              
               if (card.isLink && card.isExternal) {
                 return (
                   <a
@@ -672,7 +755,7 @@ const Support = () => {
                     className="p-6 rounded-2xl border text-left transition-all hover:shadow-card hover:-translate-y-1 flex flex-col items-start border-border bg-white cursor-pointer group"
                   >
                     <div className="flex w-full items-start justify-between">
-                      <card.icon className="h-10 w-10 mb-4 text-navy" />
+                      <IconComponent className="h-10 w-10 mb-4 text-navy" />
                       <ExternalLink className="h-5 w-5 text-text-mid opacity-50 group-hover:opacity-100 transition-opacity" />
                     </div>
                     <h3 className="font-bold text-navy text-lg mb-2">{card.title}</h3>
@@ -689,7 +772,7 @@ const Support = () => {
                     className="p-6 rounded-2xl border text-left transition-all hover:shadow-card hover:-translate-y-1 flex flex-col items-start border-border bg-white cursor-pointer group"
                   >
                     <div className="flex w-full items-start justify-between">
-                      <card.icon className="h-10 w-10 mb-4 text-navy" />
+                      <IconComponent className="h-10 w-10 mb-4 text-navy" />
                     </div>
                     <h3 className="font-bold text-navy text-lg mb-2">{card.title}</h3>
                     <p className="text-sm text-text-mid font-medium">{card.desc}</p>
@@ -709,7 +792,7 @@ const Support = () => {
                   className={`p-6 rounded-2xl border text-left transition-all hover:shadow-card hover:-translate-y-1 flex flex-col items-start ${activeForm === card.id ? "border-coral bg-coral-pale ring-1 ring-coral" : "border-border bg-white"
                     }`}
                 >
-                  <card.icon className={`h-10 w-10 mb-4 ${activeForm === card.id ? "text-coral" : "text-navy"}`} />
+                  <IconComponent className={`h-10 w-10 mb-4 ${activeForm === card.id ? "text-coral" : "text-navy"}`} />
                   <h3 className="font-bold text-navy text-lg mb-2">{card.title}</h3>
                   <p className="text-sm text-text-mid font-medium">{card.desc}</p>
                 </button>
@@ -731,29 +814,24 @@ const Support = () => {
           </div>
           <div>
             <h2 className="text-3xl md:text-4xl font-extrabold text-navy leading-tight">
-              Seafarers’ Centre
+              {data.centre_title}
             </h2>
-            <p className="mt-2 text-xl font-bold text-coral">A Welcoming Haven for Rest and Connection</p>
+            <p className="mt-2 text-xl font-bold text-coral">{data.centre_subtitle}</p>
             <p className="mt-5 text-lg text-text-mid font-medium leading-relaxed">
-              Our Seafarers’ Centre is a safe, welcoming space designed to help seafarers relax, recharge, and connect with loved ones. When you come ashore, you can access a variety of services, including
+              {data.centre_description}
             </p>
             <ul className="mt-6 space-y-4">
-              {[
-                "Free Wi-Fi and phone charging",
-                "Comfortable lounge with snacks and drinks",
-                "Friendly volunteers available to assist",
-                "Local info and support resources on hand"
-              ].map((t) => (
-                <li key={t} className="flex gap-4 items-center">
+              {data.centre_bullets.map((bullet: any, idx: number) => (
+                <li key={idx} className="flex gap-4 items-center">
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-coral/10 text-coral">
                     <CheckCircle2 className="h-5 w-5" />
                   </span>
-                  <span className="text-navy font-bold text-lg">{t}</span>
+                  <span className="text-navy font-bold text-lg">{bullet.text}</span>
                 </li>
               ))}
             </ul>
             <Button className="mt-8 bg-coral hover:bg-coral-light text-white font-bold h-12 px-8" onClick={() => { setActiveForm('centre'); document.getElementById('quick-access')?.scrollIntoView({ behavior: 'smooth' }); }}>
-              Come visit us
+              {data.centre_button}
             </Button>
           </div>
         </div>
@@ -764,35 +842,29 @@ const Support = () => {
         <div className="container-page grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="order-2 lg:order-1">
             <h2 className="text-3xl md:text-4xl font-extrabold text-navy leading-tight">
-              Transportation Assistance
+              {data.transport_title}
             </h2>
-            <p className="mt-2 text-xl font-bold text-coral">Making Your Time in Port Easier</p>
+            <p className="mt-2 text-xl font-bold text-coral">{data.transport_subtitle}</p>
             <p className="mt-5 text-lg text-text-mid font-medium leading-relaxed">
-              Whether you’re staying on board or able to go ashore, our transportation assistance ensures your time in port is as comfortable as possible.
+              {data.transport_desc_1}
             </p>
             <ul className="mt-6 space-y-4">
-              <li className="flex gap-4 items-start">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-coral/10 text-coral mt-1">
-                  <CheckCircle2 className="h-5 w-5" />
-                </span>
-                <span className="text-navy font-bold text-lg leading-snug">
-                  If you can’t leave the ship, our volunteers can shop for essentials (SIM cards, toiletries, snacks) and deliver them directly to your vessel
-                </span>
-              </li>
-              <li className="flex gap-4 items-start">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-coral/10 text-coral mt-1">
-                  <CheckCircle2 className="h-5 w-5" />
-                </span>
-                <span className="text-navy font-bold text-lg leading-snug">
-                  If you’re able to go ashore, we can assist with transportation to nearby stores, pharmacies, or other locations to help you get what you need
-                </span>
-              </li>
+              {data.transport_bullets.map((bullet: any, idx: number) => (
+                <li key={idx} className="flex gap-4 items-start">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-coral/10 text-coral mt-1">
+                    <CheckCircle2 className="h-5 w-5" />
+                  </span>
+                  <span className="text-navy font-bold text-lg leading-snug">
+                    {bullet.text}
+                  </span>
+                </li>
+              ))}
             </ul>
             <p className="mt-6 text-lg text-text-mid font-medium leading-relaxed">
-              We strive to provide fast, friendly, and reliable service to make your visit as stress-free as possible.
+              {data.transport_desc_2}
             </p>
             <Button className="mt-8 bg-coral hover:bg-coral-light text-white font-bold h-12 px-8" onClick={() => { setActiveForm('transport'); document.getElementById('quick-access')?.scrollIntoView({ behavior: 'smooth' }); }}>
-              Request Transportation
+              {data.transport_button}
             </Button>
           </div>
           <div className="order-1 lg:order-2 rounded-3xl overflow-hidden shadow-soft aspect-[5/4]">
@@ -804,17 +876,17 @@ const Support = () => {
       {/* 5. Ship Visits */}
       <section className="py-20 bg-warm-gray text-center border-y border-border">
         <div className="container-page max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-navy">Ship Visits</h2>
-          <p className="text-coral font-bold mt-3 text-xl">Connecting Seafarers with Support in Newfoundland and Labrador</p>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-navy">{data.ship_title}</h2>
+          <p className="text-coral font-bold mt-3 text-xl">{data.ship_subtitle}</p>
           <p className="mt-8 text-lg text-text-mid font-medium leading-relaxed text-left md:text-center">
-            At Mission to Seafarers Newfoundland and Labrador, we are committed to visiting every ship that arrives at our ports. Seafarers often face long voyages with limited access to support during their time in port. Our ship visits provide a vital connection by offering a friendly face, a listening ear, and practical assistance. These visits bridge the gap between life at sea and the world ashore, reminding seafarers that they are seen, valued, and cared for.
+            {data.ship_description}
           </p>
           <p className="mt-8 text-lg font-bold text-navy flex items-center justify-center gap-2 bg-white shadow-sm py-4 px-6 rounded-full inline-flex border border-border">
-            If you would like to learn more about our ship visit program or request a visit to your vessel, we would be happy to connect with you.
+            {data.ship_callout}
           </p>
           <div className="mt-8">
             <Button className="bg-coral hover:bg-coral-light text-white font-bold h-12 px-10" onClick={() => { setActiveForm('visit'); document.getElementById('quick-access')?.scrollIntoView({ behavior: 'smooth' }); }}>
-              Connect Us Today
+              {data.ship_button}
             </Button>
           </div>
         </div>
@@ -828,28 +900,24 @@ const Support = () => {
           </div>
           <div>
             <h2 className="text-3xl md:text-4xl font-extrabold text-navy leading-tight">
-              Religious Services
+              {data.religion_title}
             </h2>
-            <p className="mt-2 text-xl font-bold text-coral">Spiritual Support for All Beliefs</p>
+            <p className="mt-2 text-xl font-bold text-coral">{data.religion_subtitle}</p>
             <p className="mt-5 text-lg text-text-mid font-medium leading-relaxed">
-              Our chaplain is available to provide spiritual care, regardless of your faith tradition. Whether you seek Anglican, Catholic, Orthodox, or multi-faith services, we are here to support you. We also offer:
+              {data.religion_description}
             </p>
             <ul className="mt-6 space-y-4">
-              {[
-                "Spiritual care and prayer are available upon request",
-                "Quiet space for personal reflection",
-                "Faith-based support for all beliefs"
-              ].map((t) => (
-                <li key={t} className="flex gap-4 items-center">
+              {data.religion_bullets.map((bullet: any, idx: number) => (
+                <li key={idx} className="flex gap-4 items-center">
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-coral/10 text-coral">
                     <CheckCircle2 className="h-5 w-5" />
                   </span>
-                  <span className="text-navy font-bold text-lg">{t}</span>
+                  <span className="text-navy font-bold text-lg">{bullet.text}</span>
                 </li>
               ))}
             </ul>
             <Button className="mt-8 bg-coral hover:bg-coral-light text-white font-bold h-12 px-8" onClick={() => { setActiveForm('religion'); document.getElementById('quick-access')?.scrollIntoView({ behavior: 'smooth' }); }}>
-              Let Us Connect with You
+              {data.religion_button}
             </Button>
           </div>
         </div>
@@ -858,8 +926,8 @@ const Support = () => {
       {/* 7. Mental Health & Crisis Resources */}
       <section className="py-20 bg-navy text-white">
         <div className="container-page text-center">
-          <h2 className="text-3xl text-white md:text-4xl font-extrabold mb-4">Mental Health & Crisis Resources</h2>
-          <p className="text-coral-light font-bold text-xl mb-12">Your Well-being is Our Priority</p>
+          <h2 className="text-3xl text-white md:text-4xl font-extrabold mb-4">{data.mental_title}</h2>
+          <p className="text-coral-light font-bold text-xl mb-12">{data.mental_subtitle}</p>
 
           <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 text-left max-w-4xl mx-auto shadow-lg relative overflow-hidden">
             <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
@@ -867,33 +935,30 @@ const Support = () => {
             </div>
             
             <p className="text-lg font-medium text-white/90 relative z-10 mb-8 leading-relaxed">
-              Life at sea can be stressful, and our Mental Health & Crisis Resources provide confidential emotional and mental health support to seafarers in need:
+              {data.mental_description}
             </p>
 
             <ul className="space-y-6 text-lg font-medium text-white/90 relative z-10 mb-10">
-              <li className="flex items-start gap-4">
-                <Heart className="h-7 w-7 text-coral shrink-0" />
-                <span>Pastoral care and emotional support from our trained team</span>
-              </li>
-              <li className="flex items-start gap-4">
-                <MapPin className="h-7 w-7 text-coral shrink-0" />
-                <span>Referrals to local mental health services and global seafarer support partners</span>
-              </li>
-              <li className="flex items-start gap-4">
-                <Phone className="h-7 w-7 text-coral shrink-0" />
-                <span>Emergency crisis resources available 24/7</span>
-              </li>
+              {data.mental_bullets.map((bullet: any, idx: number) => {
+                const IconComponent = idx === 0 ? Heart : idx === 1 ? MapPin : Phone;
+                return (
+                  <li key={idx} className="flex items-start gap-4">
+                    <IconComponent className="h-7 w-7 text-coral shrink-0" />
+                    <span>{bullet.text}</span>
+                  </li>
+                );
+              })}
             </ul>
 
             <div className="mt-8 bg-white rounded-2xl p-6 md:p-8 flex flex-col items-center text-center relative z-10 shadow-lg">
               <h4 className="text-2xl font-bold text-navy mb-4">
-                You do not have to face challenges alone support is always available when you need it most.
+                {data.mental_callout}
               </h4>
               <button 
                 onClick={() => { setActiveForm('mental'); document.getElementById('quick-access')?.scrollIntoView({ behavior: 'smooth' }); }} 
                 className="inline-flex items-center justify-center gap-2 bg-coral hover:bg-coral-light text-white px-8 py-4 rounded-full transition-colors font-bold text-lg w-full sm:w-auto mt-4"
               >
-                Reach Out for Support
+                {data.mental_button}
               </button>
             </div>
           </div>
@@ -904,18 +969,18 @@ const Support = () => {
       <section className="py-20 bg-white">
         <div className="container-page grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-navy">Explore Newfoundland & Labrador</h2>
-            <p className="text-coral font-bold mt-3 text-xl mb-6">An Adventure Awaits</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-navy">{data.explore_title}</h2>
+            <p className="text-coral font-bold mt-3 text-xl mb-6">{data.explore_subtitle}</p>
             <p className="text-lg text-text-mid font-medium leading-relaxed mb-8">
-              Newfoundland and Labrador offer unforgettable natural beauty, historic towns, and warm local hospitality. When you have time ashore, take the opportunity to explore our rugged coastlines, scenic landscapes, and vibrant culture.
+              {data.explore_description}
             </p>
-            <a href="https://www.newfoundlandlabrador.com/" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 bg-navy hover:bg-navy-light text-white px-8 py-4 rounded-full transition-colors font-bold text-lg">
-              Explore Now
+            <a href={data.explore_link} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 bg-navy hover:bg-navy-light text-white px-8 py-4 rounded-full transition-colors font-bold text-lg">
+              {data.explore_button}
             </a>
           </div>
           <div className="aspect-square md:aspect-video lg:aspect-square bg-warm-gray rounded-3xl shadow-soft flex items-center justify-center overflow-hidden border-4 border-white">
-          <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2690.250901896602!2d-52.69271455!3d47.601810799999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4b0ca148b3fca06f%3A0xbca2e587c54ade57!2sSt.%20John&#39;s%2C%20NL%20A1A%205N8%2C%20Canada!5e0!3m2!1sen!2sin!4v1780888530650!5m2!1sen!2sin"
+            <iframe
+              src={data.explore_map_url}
               className="w-full h-full"
               style={{ border: 0 }}
               allowFullScreen

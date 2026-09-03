@@ -1,13 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
-import { Mail, Phone, MapPin, Clock, Send, Globe2, Facebook, Linkedin, Youtube } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Send, Globe2 } from "lucide-react";
 
-// Using the About image as a temporary placeholder background 
-// since you mentioned you don't have a specific Contact image yet.
 import contactBg from "@/assets/contact-banner.jpg";
 
 const interests = [
@@ -19,9 +17,51 @@ const interests = [
   "Other",
 ];
 
+const defaultData = {
+  hero_badge: 'Contact Us',
+  hero_title: 'We want to hear from you!',
+  hero_subtitle: 'Whether it’s by email, social media, or LinkedIn — we want to hear from you!',
+  info_title: 'Newfoundland and Labrador Station',
+  info_subtitle: 'Need to contact our Newfoundland and Labrador station directly?',
+  address_line1: '687 Water Street, 2nd Floor',
+  address_line2: "St. John's, NL A1E 1B5",
+  email: 'info@missiontoseafarersnl.ca',
+  phone_label: '+1 514-501-0590',
+  phone_link: '+15145010590',
+  hours: 'Mon-Fri 9:00AM - 5:00PM',
+  map_iframe_url: 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2690.244206463253!2d-52.69266400000001!3d47.601941000000004!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4b0ca148b3fca06f%3A0xbca2e587c54ade57!2sSt.%20John&#39;s%2C%20NL%20A1A%205N8%2C%20Canada!5e0!3m2!1sen!2sus!4v1780885325679!5m2!1sen!2sus',
+  form_title: 'Contact us',
+  form_description: 'Have questions about our services? Want to get involved or support our mission? We’re here to connect. We look forward to connecting with you!',
+  global_title: 'Our ports and Seafarers Centers',
+  global_description_prefix: 'For information on the ports we serve or to reach a local Seafarers’ Centre, please visit our',
+  global_link_text: 'national website',
+  global_link_url: 'https://mtsc.ca/',
+  global_description_suffix: '.',
+  global_button_label: 'Visit National Website'
+};
+
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [pageData, setPageData] = useState<any>(null);
   const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    const fetchPageData = async () => {
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+        const res = await fetch(`${apiUrl}/api/globals/mtscnl-contact-page`);
+        if (res.ok) {
+          const data = await res.json();
+          setPageData(data);
+        }
+      } catch (error) {
+        console.error("Error fetching Mtscnl Contact Page data:", error);
+      }
+    };
+    fetchPageData();
+  }, []);
+
+  const data = pageData ? { ...defaultData, ...pageData } : defaultData;
 
   // This handles the iframe finishing its load (meaning Google received the data)
   const handleIframeLoad = () => {
@@ -55,14 +95,14 @@ const Contact = () => {
         <div className="container-page relative z-10 text-center max-w-4xl mx-auto">
           <div className="mb-6 flex justify-center">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-coral/20 text-coral-light text-xs font-extrabold uppercase tracking-widest border border-coral/30">
-              <Mail className="w-4 h-4 text-coral-light" /> Contact Us
+              <Mail className="w-4 h-4 text-coral-light" /> {data.hero_badge}
             </span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-            We want to hear from you!
+            {data.hero_title}
           </h1>
           <p className="text-lg md:text-xl text-white/80 leading-relaxed font-medium">
-            Whether it’s by email, social media, or LinkedIn — we want to hear from you!
+            {data.hero_subtitle}
           </p>
         </div>
       </section>
@@ -74,8 +114,8 @@ const Contact = () => {
           {/* Contact info */}
           <div className="lg:col-span-5 space-y-5">
             <div className="rounded-2xl bg-gradient-hero text-white p-7 md:p-8 shadow-soft">
-              <h2 className="text-2xl font-extrabold !text-white">Newfoundland and Labrador Station</h2>
-              <p className="mt-2 text-white/85 text-sm">Need to contact our Newfoundland and Labrador station directly?</p>
+              <h2 className="text-2xl font-extrabold !text-white">{data.info_title}</h2>
+              <p className="mt-2 text-white/85 text-sm">{data.info_subtitle}</p>
 
               <ul className="mt-7 space-y-4 text-sm">
                 <li className="flex gap-3.5">
@@ -84,8 +124,8 @@ const Contact = () => {
                   </span>
                   <span>
                     <span className="block text-white/60 text-[11px] uppercase font-bold tracking-widest">Address</span>
-                    687 Water Street, 2nd Floor
-                    St.&nbsp;John's, NL&nbsp;A1E&nbsp;1B5
+                    {data.address_line1}<br />
+                    {data.address_line2}
                   </span>
                 </li>
 
@@ -95,8 +135,8 @@ const Contact = () => {
                   </span>
                   <span>
                     <span className="block text-white/60 text-[11px] uppercase font-bold tracking-widest">Email</span>
-                    <a href="mailto:info@missiontoseafarersnl.ca" className="text-white hover:text-coral-light transition-colors underline">
-                      info@missiontoseafarersnl.ca
+                    <a href={`mailto:${data.email}`} className="text-white hover:text-coral-light transition-colors underline">
+                      {data.email}
                     </a>
                   </span>
                 </li>
@@ -106,8 +146,8 @@ const Contact = () => {
                   </span>
                   <span>
                     <span className="block text-white/60 text-[11px] uppercase font-bold tracking-widest">Phone</span>
-                    <a href="tel:+15145010590" className="text-white hover:text-coral-light transition-colors underline">
-                      +1 514-501-0590
+                    <a href={`tel:${data.phone_link}`} className="text-white hover:text-coral-light transition-colors underline">
+                      {data.phone_label}
                     </a>
                   </span>
                 </li>
@@ -117,7 +157,7 @@ const Contact = () => {
                   </span>
                   <span>
                     <span className="block text-white/60 text-[11px] uppercase font-bold tracking-widest">Hours</span>
-                    Mon-Fri 9:00AM - 5:00PM
+                    {data.hours}
                   </span>
                 </li>
               </ul>
@@ -125,7 +165,7 @@ const Contact = () => {
 
             <div className="rounded-2xl border border-border bg-warm-gray p-2 overflow-hidden h-72 shadow-inner">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2690.244206463253!2d-52.69266400000001!3d47.601941000000004!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4b0ca148b3fca06f%3A0xbca2e587c54ade57!2sSt.%20John&#39;s%2C%20NL%20A1A%205N8%2C%20Canada!5e0!3m2!1sen!2sus!4v1780885325679!5m2!1sen!2sus"
+                src={data.map_iframe_url}
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -140,11 +180,11 @@ const Contact = () => {
           <div className="lg:col-span-7 rounded-2xl bg-warm-gray p-6 md:p-8 shadow-card space-y-5">
             <div className="flex items-center gap-2 mb-2">
               <Send className="h-6 w-6 text-coral" />
-              <h2 className="text-xl md:text-3xl font-extrabold text-navy">Contact us</h2>
+              <h2 className="text-xl md:text-3xl font-extrabold text-navy">{data.form_title}</h2>
             </div>
 
             <p className="text-gray-600 font-medium leading-relaxed pb-4 border-b border-gray-200">
-              Have questions about our services? Want to get involved or support our mission? We’re here to connect. We look forward to connecting with you!
+              {data.form_description}
             </p>
 
             {/* Hidden iframe triggers handleIframeLoad when Google Form finishes processing */}
@@ -237,13 +277,13 @@ const Contact = () => {
       <section className="py-20 bg-white border-t border-border">
         <div className="container-page max-w-4xl mx-auto text-center">
           <Globe2 className="w-12 h-12 text-coral mx-auto mb-6" />
-          <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-4">Our ports and Seafarers Centers</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-4">{data.global_title}</h2>
           <p className="text-lg text-text-mid mb-8 font-medium leading-relaxed max-w-2xl mx-auto">
-            For information on the ports we serve or to reach a local Seafarers’ Centre, please visit our <a href="https://mtsc.ca/" target="_blank" rel="noopener noreferrer" className="text-coral font-bold hover:underline">national website</a>.
+            {data.global_description_prefix} <a href={data.global_link_url} target="_blank" rel="noopener noreferrer" className="text-coral font-bold hover:underline">{data.global_link_text}</a>{data.global_description_suffix}
           </p>
           <Button asChild size="lg" className="bg-coral hover:bg-coral-light text-white font-bold h-14 px-8 text-lg shadow-warm">
-            <a href="https://mtsc.ca/" target="_blank" rel="noopener noreferrer">
-              Visit National Website
+            <a href={data.global_link_url} target="_blank" rel="noopener noreferrer">
+              {data.global_button_label}
             </a>
           </Button>
         </div>
