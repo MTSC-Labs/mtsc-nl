@@ -12,6 +12,7 @@ import {
   MapPin, Building2, Gift, HeartHandshake, Briefcase, 
   Sparkles, Scale, Package, Wifi, Coffee
 } from "lucide-react";
+import { useLivePreview } from "@payloadcms/live-preview-react"; // <-- Added Live Preview Hook
 
 // Image imports for the Hero Section
 import heroImg3 from "@/assets/pocket2.jpeg";
@@ -146,25 +147,33 @@ const defaultData = {
 
 const Index = () => {
   const [isDonateOpen, setIsDonateOpen] = useState(false);
-  const [pageData, setPageData] = useState<any>(null);
+  
+  // 1. Updated state to hold initial fetched data
+  const [initialData, setInitialData] = useState<any>(defaultData);
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
   useEffect(() => {
     const fetchPageData = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
         const res = await fetch(`${apiUrl}/api/globals/mtscnl-home-page`);
         if (res.ok) {
-          const data = await res.json();
-          setPageData(data);
+          const fetchedData = await res.json();
+          // Merge API data with defaultData
+          setInitialData({ ...defaultData, ...fetchedData });
         }
       } catch (error) {
         console.error("Error fetching Mtscnl Home Page data:", error);
       }
     };
     fetchPageData();
-  }, []);
+  }, [apiUrl]);
 
-  const data = pageData ? { ...defaultData, ...pageData } : defaultData;
+  // 2. Added Live Preview Hook
+  const { data } = useLivePreview({
+    serverURL: apiUrl,
+    depth: 1,
+    initialData: initialData, 
+  });
 
   return (
     <>
