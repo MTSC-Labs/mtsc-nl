@@ -65,22 +65,14 @@ export function setStorageCache(key: string, data: any): void {
 }
 
 /**
- * Evaluates data sources in priority order.
- * - Inside CMS Admin Iframe:
- *   1. Active postMessageData (as user types in CMS)
- *   2. Live preview hook data if user made live edits
- *   3. Freshly fetched initialData (from server on load or after SAVE)
- * - Outside Iframe (Normal Visitor):
- *   1. Freshly fetched initialData from CMS
- *   2. Last valid cached ref or localStorage
+ * Evaluates data sources in priority order matching MTSC Halifax & PFHA.
  */
 function getBestData(
   postMessageData: any,
   liveData: any,
   initialData: any,
   lastValidRef: React.MutableRefObject<any>,
-  cacheKey: string,
-  hasLiveUpdates: boolean
+  cacheKey: string
 ): any {
   if (isInIframe) {
     if (isValidCmsData(postMessageData)) {
@@ -88,7 +80,7 @@ function getBestData(
       setStorageCache(cacheKey, postMessageData);
       return postMessageData;
     }
-    if (hasLiveUpdates && isValidCmsData(liveData)) {
+    if (isValidCmsData(liveData)) {
       lastValidRef.current = liveData;
       setStorageCache(cacheKey, liveData);
       return liveData;
@@ -114,7 +106,7 @@ function getBestData(
 }
 
 /**
- * Generic builder for MTSC-NL Live Preview + Query Hook
+ * Generic builder for MTSC-NL Live Preview + Query Hook (Identical to Halifax & PFHA)
  */
 function createMtscnlLiveHook(
   cacheKey: string,
@@ -124,7 +116,6 @@ function createMtscnlLiveHook(
 ) {
   return function useHook() {
     const lastValidRef = useRef<any>(getStorageCache(cacheKey));
-    const [hasLiveUpdates, setHasLiveUpdates] = useState(false);
     const [mediaCacheTick, setMediaCacheTick] = useState(0);
 
     // Media caching listener
@@ -157,33 +148,20 @@ function createMtscnlLiveHook(
       }
     }, [initialData]);
 
-    // Dynamically resolve serverURL from document.referrer or CMS_URL to allow postMessage cross-origin matching
-    const effectiveServerURL = useMemo(() => {
-      if (typeof window !== 'undefined' && document.referrer) {
-        try {
-          const refUrl = new URL(document.referrer);
-          if (refUrl.origin) return refUrl.origin;
-        } catch {
-          // ignore parsing error
-        }
-      }
-      return CMS_URL;
-    }, []);
-
     // Live preview hook connected to Payload CMS
     const { data: liveData } = useLivePreview({
       initialData: initialData || lastValidRef.current,
-      serverURL: effectiveServerURL,
+      serverURL: CMS_URL,
       depth: 2,
     });
-
-    const [postMessageData, setPostMessageData] = useState<any>(null);
 
     useEffect(() => {
       if (isValidCmsData(liveData)) {
         populateMediaCache(liveData);
       }
     }, [liveData]);
+
+    const [postMessageData, setPostMessageData] = useState<any>(null);
 
     useEffect(() => {
       if (isValidCmsData(postMessageData)) {
@@ -201,9 +179,7 @@ function createMtscnlLiveHook(
           event?.data?.type === 'payload-document-event' ||
           (event?.data?.type === 'payload-live-preview' && event?.data?.event === 'save')
         ) {
-          // Immediately refetch from CMS database
           refetch();
-          // Secondary refetch after 350ms to ensure DB commit is fully available
           setTimeout(() => {
             refetch();
           }, 350);
@@ -219,7 +195,6 @@ function createMtscnlLiveHook(
         ) {
           const payloadData = event.data.data || event.data.doc || event.data;
           if (payloadData && isValidCmsData(payloadData)) {
-            setHasLiveUpdates(true);
             setPostMessageData({ ...payloadData });
           }
         }
@@ -230,15 +205,15 @@ function createMtscnlLiveHook(
     }, [refetch]);
 
     const activeData = useMemo(() => {
-      return getBestData(
+      const best = getBestData(
         postMessageData,
         liveData,
         initialData,
         lastValidRef,
-        cacheKey,
-        hasLiveUpdates
+        cacheKey
       );
-    }, [postMessageData, liveData, initialData, hasLiveUpdates, mediaCacheTick]);
+      return best ? { ...best } : best;
+    }, [postMessageData, liveData, initialData, mediaCacheTick]);
 
     return {
       data: activeData,
