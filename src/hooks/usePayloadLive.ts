@@ -9,6 +9,7 @@ import {
   getMtscnlContactPageData,
   getMtscnlSupportPageData,
   getMtscnlGetInvolvedPageData,
+  getMtscnlDonatePageData,
 } from '../services/api';
 
 /**
@@ -150,8 +151,8 @@ function createMtscnlLiveHook(
 
     // Live preview hook connected to Payload CMS
     const { data: liveData } = useLivePreview({
-      initialData: initialData || lastValidRef.current,
-      serverURL: CMS_URL,
+      initialData: initialData || lastValidRef.current || {},
+      serverURL: effectiveServerURL,
       depth: 2,
     });
 
@@ -259,4 +260,11 @@ export const useMtscnlGetInvolvedPageLive = createMtscnlLiveHook(
   'mtscnl-get-involved-page-data',
   getMtscnlGetInvolvedPageData,
   'mtscnl-get-involved-page'
+);
+
+export const useMtscnlDonatePageLive = createMtscnlLiveHook(
+  'mtscnl-donate-page',
+  'mtscnl-donate-page-data',
+  getMtscnlDonatePageData,
+  'mtscnl-donate-page'
 );
