@@ -69,7 +69,7 @@ export function setStorageCache(key: string, data: any): void {
 }
 
 /**
- * Evaluates data sources in priority order matching MTSC Halifax & PFHA.
+ * Evaluates data sources in priority order by merging postMessageData over liveData & initialData inside iframe.
  */
 function getBestData(
   postMessageData: any,
@@ -79,20 +79,16 @@ function getBestData(
   cacheKey: string
 ): any {
   if (isInIframe) {
-    if (isValidCmsData(postMessageData)) {
-      lastValidRef.current = postMessageData;
-      setStorageCache(cacheKey, postMessageData);
-      return postMessageData;
-    }
-    if (isValidCmsData(liveData)) {
-      lastValidRef.current = liveData;
-      setStorageCache(cacheKey, liveData);
-      return liveData;
-    }
-    if (isValidCmsData(initialData)) {
-      lastValidRef.current = initialData;
-      setStorageCache(cacheKey, initialData);
-      return initialData;
+    const merged = {
+      ...(isValidCmsData(initialData) ? initialData : {}),
+      ...(isValidCmsData(liveData) ? liveData : {}),
+      ...(isValidCmsData(postMessageData) ? postMessageData : {}),
+    };
+
+    if (isValidCmsData(merged)) {
+      lastValidRef.current = merged;
+      setStorageCache(cacheKey, merged);
+      return merged;
     }
   }
 
@@ -110,7 +106,7 @@ function getBestData(
 }
 
 /**
- * Generic builder for MTSC-NL Live Preview + Query Hook (Identical to Halifax & PFHA)
+ * Generic builder for MTSC-NL Live Preview + Query Hook
  */
 function createMtscnlLiveHook(
   cacheKey: string,
@@ -190,7 +186,7 @@ function createMtscnlLiveHook(
           return;
         }
 
-        // 2. Handle Live Preview typing: Payload dispatches live preview field updates
+        // 2. Handle Live Preview typing & image updates: Payload dispatches live preview field updates
         if (
           event?.data?.type === 'payload-live-preview' ||
           event?.data?.slug === slug ||
@@ -199,6 +195,7 @@ function createMtscnlLiveHook(
         ) {
           const payloadData = event.data.data || event.data.doc || event.data;
           if (payloadData && typeof payloadData === 'object') {
+            populateMediaCache(payloadData);
             setPostMessageData((prev: any) => ({ ...(prev || {}), ...payloadData }));
           }
         }
