@@ -22,13 +22,17 @@ export const isInIframe = typeof window !== 'undefined' && window.self !== windo
 export function isValidCmsData(d: any): boolean {
   if (!d || typeof d !== 'object' || Array.isArray(d)) return false;
   const keys = Object.keys(d);
-  if (keys.length <= 2) return false;
+  if (keys.length === 0) return false;
 
   return Boolean(
     d.id ||
     d.globalType ||
+    d.slug ||
     d.hero_title ||
     d.hero_title_line_1 ||
+    d.hero_main_image ||
+    d.hero_background_image ||
+    d.hero_skyline_image ||
     d.hero_badge ||
     d.hero_eyebrow ||
     d.history_title ||
@@ -194,8 +198,8 @@ function createMtscnlLiveHook(
           event?.data?.globalType === slug
         ) {
           const payloadData = event.data.data || event.data.doc || event.data;
-          if (payloadData && isValidCmsData(payloadData)) {
-            setPostMessageData({ ...payloadData });
+          if (payloadData && typeof payloadData === 'object') {
+            setPostMessageData((prev: any) => ({ ...(prev || {}), ...payloadData }));
           }
         }
       };
