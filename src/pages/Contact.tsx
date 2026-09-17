@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useMtscnlContactPageLive } from "@/hooks/usePayloadLive";
+import { getMediaUrl } from "@/services/api";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -48,7 +49,7 @@ const Contact = () => {
   const formRef = useRef<HTMLFormElement>(null);
 
   // Resolve Images: CMS -> Local Fallback
-  const resolvedHeroBg = data?.hero_background_image?.url || contactBg;
+  const resolvedHeroBg = getMediaUrl(data?.hero_background_image, contactBg);
 
   // This handles the iframe finishing its load (meaning Google received the data)
   const handleIframeLoad = () => {

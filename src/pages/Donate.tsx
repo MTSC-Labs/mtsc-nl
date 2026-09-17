@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/PageHero";
 import { HandHeart, Heart, Gift, ArrowRight } from "lucide-react";
 import { useMtscnlDonatePageLive } from "@/hooks/usePayloadLive";
+import { getMediaUrl } from "@/services/api";
 
 const defaultData = {
   hero_eyebrow: "Donate",
@@ -64,8 +65,8 @@ const Donate = () => {
   const data = rawData ? { ...defaultData, ...rawData } : defaultData;
 
   // Resolve Images: CMS (Will pass background to PageHero and CTA section if set)
-  const resolvedHeroBg = data?.hero_background_image?.url || undefined;
-  const resolvedCtaBg = data?.cta_background_image?.url || undefined;
+  const resolvedHeroBg = getMediaUrl(data?.hero_background_image);
+  const resolvedCtaBg = getMediaUrl(data?.cta_background_image);
 
   return (
     <>

@@ -189,7 +189,7 @@ const About = () => {
   
   // Resolve Gallery Photos (extract from CMS array if present and valid)
   const isEmpty=data?.gallery_images;
-  const cmsGalleryUrls = isEmpty ? data?.gallery_images?.map((item: any) => item.image?.url).filter(Boolean) : [] ;
+  const cmsGalleryUrls = isEmpty ? data?.gallery_images?.map((item: any) => getMediaUrl(item.image)).filter(Boolean) : [] ;
   const resolvedGalleryPhotos = isEmpty ? (cmsGalleryUrls && cmsGalleryUrls.length > 0 ? cmsGalleryUrls : newPhotos) : [];
 
   const maxIndex = Math.max(0, resolvedGalleryPhotos.length - visibleItems);
@@ -290,7 +290,7 @@ const About = () => {
 
           <div className="space-y-12 md:space-y-16">
             {data.team_members.map((member: any, idx: number) => {
-              const resolvedTeamImg = member.image?.url || teamStaticImages[idx] || aliciaImg;
+              const resolvedTeamImg = getMediaUrl(member.image, teamStaticImages[idx] || aliciaImg);
 
               return (
                 <div key={idx} className="grid lg:grid-cols-12 gap-10 md:gap-12 items-center bg-warm-gray p-8 md:p-12 rounded-3xl shadow-sm">
