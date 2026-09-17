@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useMtscnlAboutPageLive } from "@/hooks/usePayloadLive";
+import { getMediaUrl } from "@/services/api";
 import { 
   Users, 
   HeartPulse, 
@@ -231,7 +232,7 @@ const About = () => {
             <div className="hidden md:block absolute left-1/2 top-4 bottom-4 w-[2px] bg-coral/20 -translate-x-1/2"></div>
 
             {data.history_blocks.map((block: any, idx: number) => {
-              const resolvedBlockImg = block.image?.url || historyStaticImages[idx] || historyImg3;
+              const resolvedBlockImg = getMediaUrl(block.image, historyStaticImages[idx] || historyImg3);
 
               return (
                 <div key={idx} className={`relative flex flex-col md:flex-row items-center gap-10 md:gap-16 lg:gap-24 ${idx % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>

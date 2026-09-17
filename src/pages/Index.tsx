@@ -13,6 +13,7 @@ import {
   Sparkles, Scale, Package, Wifi, Coffee
 } from "lucide-react";
 import { useMtscnlHomePageLive } from "@/hooks/usePayloadLive";
+import { getMediaUrl } from "@/services/api";
 
 // Image imports for the Hero Section
 import heroImg3 from "@/assets/pocket2.jpeg";

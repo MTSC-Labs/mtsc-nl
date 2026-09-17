@@ -170,6 +170,12 @@ function createMtscnlLiveHook(
       }
     }, [liveData]);
 
+    useEffect(() => {
+      if (isValidCmsData(postMessageData)) {
+        populateMediaCache(postMessageData);
+      }
+    }, [postMessageData]);
+
     const [postMessageData, setPostMessageData] = useState<any>(null);
 
     // Window postMessage listener: handles live typing AND save events
