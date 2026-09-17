@@ -185,7 +185,7 @@ const About = () => {
   }, []);
 
   // Resolve Images: CMS -> Local Fallback
-  const resolvedHeroBg = data?.hero_background_image?.url || aboutImg;
+  const resolvedHeroBg = getMediaUrl(data?.hero_background_image, aboutImg);
   
   // Resolve Gallery Photos (extract from CMS array if present and valid)
   const isEmpty=data?.gallery_images;

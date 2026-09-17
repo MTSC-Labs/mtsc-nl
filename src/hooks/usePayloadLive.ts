@@ -157,10 +157,23 @@ function createMtscnlLiveHook(
       }
     }, [initialData]);
 
+    // Dynamically resolve serverURL from document.referrer or CMS_URL to allow postMessage cross-origin matching
+    const effectiveServerURL = useMemo(() => {
+      if (typeof window !== 'undefined' && document.referrer) {
+        try {
+          const refUrl = new URL(document.referrer);
+          if (refUrl.origin) return refUrl.origin;
+        } catch {
+          // ignore parsing error
+        }
+      }
+      return CMS_URL;
+    }, []);
+
     // Live preview hook connected to Payload CMS
     const { data: liveData } = useLivePreview({
       initialData: initialData || lastValidRef.current,
-      serverURL: CMS_URL,
+      serverURL: effectiveServerURL,
       depth: 2,
     });
 
@@ -225,7 +238,7 @@ function createMtscnlLiveHook(
         cacheKey,
         hasLiveUpdates
       );
-    }, [postMessageData, liveData, initialData, hasLiveUpdates]);
+    }, [postMessageData, liveData, initialData, hasLiveUpdates, mediaCacheTick]);
 
     return {
       data: activeData,

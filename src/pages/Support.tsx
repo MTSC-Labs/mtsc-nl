@@ -692,10 +692,10 @@ const Support = () => {
   };
 
   // Resolve Images: CMS -> Local Fallback
-  const resolvedHeroBg = data?.hero_background_image?.url || heroBg;
-  const resolvedCentreImg = data?.centre_image?.url || lounge;
-  const resolvedTransportImg = data?.transport_image?.url || transportImg;
-  const resolvedReligionImg = data?.religion_image?.url || religiousImg;
+  const resolvedHeroBg = getMediaUrl(data?.hero_background_image, heroBg);
+  const resolvedCentreImg = getMediaUrl(data?.centre_image, lounge);
+  const resolvedTransportImg = getMediaUrl(data?.transport_image, transportImg);
+  const resolvedReligionImg = getMediaUrl(data?.religion_image, religiousImg);
 
   return (
     <>

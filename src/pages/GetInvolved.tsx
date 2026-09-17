@@ -409,8 +409,8 @@ const GetInvolved = () => {
   ];
 
   // Resolve Images: CMS -> Local Fallback
-  const resolvedHeroBg = data?.hero_background_image?.url || getInvolvedBg;
-  const resolvedWaysBg = data?.ways_background_image?.url || maritimeImage;
+  const resolvedHeroBg = getMediaUrl(data?.hero_background_image, getInvolvedBg);
+  const resolvedWaysBg = getMediaUrl(data?.ways_background_image, maritimeImage);
 
   const handleDonateClick = (e?: React.MouseEvent) => {
     if (e) e.preventDefault();

@@ -152,10 +152,10 @@ const Index = () => {
   const data = rawData ? { ...defaultData, ...rawData } : defaultData;
 
   // Resolve Images: Use CMS image if exists, otherwise fallback to local assets
-  const resolvedHeroBg = data?.hero_background_image?.url || seaImg2;
-  const resolvedHeroSkyline = data?.hero_skyline_image?.url || skyline;
-  const resolvedHeroMain = data?.hero_main_image?.url || heroImg3;
-  const resolvedInvolveBg = data?.get_involved_background_image?.url || waterImg;
+  const resolvedHeroBg = getMediaUrl(data?.hero_background_image, seaImg2);
+  const resolvedHeroSkyline = getMediaUrl(data?.hero_skyline_image, skyline);
+  const resolvedHeroMain = getMediaUrl(data?.hero_main_image, heroImg3);
+  const resolvedInvolveBg = getMediaUrl(data?.get_involved_background_image, waterImg);
 
   return (
     <>
