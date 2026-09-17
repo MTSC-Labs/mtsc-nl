@@ -125,7 +125,7 @@ function createMtscnlLiveHook(
   return function useHook() {
     const lastValidRef = useRef<any>(getStorageCache(cacheKey));
     const [hasLiveUpdates, setHasLiveUpdates] = useState(false);
-    const [, setMediaCacheTick] = useState(0);
+    const [mediaCacheTick, setMediaCacheTick] = useState(0);
 
     // Media caching listener
     useEffect(() => {
