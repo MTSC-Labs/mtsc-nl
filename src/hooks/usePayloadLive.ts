@@ -149,6 +149,17 @@ function createMtscnlLiveHook(
       }
     }, [initialData]);
 
+    // Dynamically resolve serverURL from document.referrer or CMS_URL to match parent iframe origin
+    const effectiveServerURL = useMemo(() => {
+      if (typeof window !== 'undefined' && document.referrer) {
+        try {
+          const refOrigin = new URL(document.referrer).origin;
+          if (refOrigin && refOrigin !== 'null') return refOrigin;
+        } catch {}
+      }
+      return CMS_URL;
+    }, []);
+
     // Live preview hook connected to Payload CMS
     const { data: liveData } = useLivePreview({
       initialData: initialData || lastValidRef.current || {},
