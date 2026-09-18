@@ -186,7 +186,7 @@ const Contact = () => {
             <form
               ref={formRef}
               className="space-y-5"
-              action="https://docs.google.com/forms/d/e/1FAIpQLSdDRLf8Fjde4Y-q1oUmoa_5JAbmAFp5TeG0RV3qjyVL3Aabhg/formResponse"
+              action="https://docs.google.com/forms/d/e/1FAIpQLSc1Ts-LOZjsJntbv_x1VLIJulNMhTREtPJ713KzYUalWg7lsQ/formResponse"
               method="POST"
               target="hidden_iframe"
               onSubmit={() => setIsSubmitting(true)}
