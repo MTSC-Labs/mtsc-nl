@@ -15,7 +15,7 @@ import getInvolvedBg from "@/assets/GetInvoled.avif";
 import maritimeImage from "@/assets/GTimagemaritime.jpg";
 
 // ==========================================
-// FORM COMPONENTS (Unchanged to preserve state/UI exactly)
+// FORM COMPONENTS 
 // ==========================================
 
 interface FormProps {
@@ -29,12 +29,34 @@ const DonateGoodsForm = ({ onClose }: FormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
+
+    const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLScdlPb5kuFG711ni6aBR55aPyHuiLwE7rTarBhASdh9vfBoXA/formResponse";
+    
+    const formData = new URLSearchParams();
+    formData.append("entry.1156791292", form.name);
+    formData.append("entry.1879318429", form.email);
+    formData.append("entry.2043418533", form.phone);
+    formData.append("entry.952292585", form.category);
+    formData.append("entry.1111094405", form.description);
+
+    try {
+      await fetch(googleFormUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formData.toString(),
+      });
+
       toast({ title: "Offer Received", description: "Thank you! Your donation offer has been received. Our team will contact you shortly." });
       setForm({ name: "", email: "", phone: "", category: "", description: "" });
       onClose();
+    } catch (error) {
+      toast({ title: "Error", description: "There was a problem submitting your form. Please try again." });
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -115,11 +137,51 @@ const CorporateSponsorForm = ({ onClose }: FormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
+
+    const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSebS8jjnrkfDvHH-WDRabltzTrcSapoSVZKyqqD9sWrYWUMpQ/formResponse";
+    
+    const formData = new URLSearchParams();
+    formData.append("entry.708292181", form.orgName);
+    formData.append("entry.1166286008", form.firstName);
+    formData.append("entry.233556412", form.lastName);
+    formData.append("entry.1956486823", form.email);
+    formData.append("entry.341986549", form.phone);
+    formData.append("entry.1382062227", form.address);
+    formData.append("entry.2099237081", form.city);
+    
+    // Append multiple interests if selected
+    form.interests.forEach(interest => {
+      formData.append("entry.1339386841", interest);
+    });
+
+    formData.append("entry.585681055", form.level);
+    formData.append("entry.2036485908", form.whyPartner);
+    
+    const heardValue = form.howHeard === 'Other' ? form.howHeardOther : form.howHeard;
+    formData.append("entry.607937878", heardValue);
+
+    try {
+      await fetch(googleFormUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formData.toString(),
+      });
+
       toast({ title: "Inquiry Submitted", description: "Thank you for reaching out! Our partnerships team will be in touch soon." });
+      setForm({ 
+        orgName: "", firstName: "", lastName: "", email: "", phone: "", 
+        address: "", city: "", interests: [], level: "", 
+        whyPartner: "", howHeard: "", howHeardOther: "" 
+      });
       onClose();
+    } catch (error) {
+      toast({ title: "Error", description: "There was a problem submitting your inquiry. Please try again." });
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -227,11 +289,54 @@ const VolunteerForm = ({ onClose }: FormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
+    
+    const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfvjgtXSUoULvqCQORltDeD8xsTgKltW6YL5_PXwISIK1LSDw/formResponse";
+    
+    const formData = new URLSearchParams();
+    formData.append("entry.961159404", form.firstName);
+    formData.append("entry.2068680723", form.lastName);
+    formData.append("entry.798557022", form.email);
+    formData.append("entry.1101818273", form.phone);
+    formData.append("entry.1901855011", form.city);
+    
+    // Append multiple interests if selected, handling the "Other" text
+    form.interests.forEach(interest => {
+      const interestValue = interest === 'Other (Please specify)' ? form.interestsOther : interest;
+      formData.append("entry.1353698842", interestValue);
+    });
+
+    // Append multiple availabilities if selected, handling the "Other" text
+    form.availability.forEach(avail => {
+      const availValue = avail === 'Other (Please specify)' ? form.availabilityOther : avail;
+      formData.append("entry.77209191", availValue);
+    });
+
+    formData.append("entry.1461114908", form.hasLicense);
+    formData.append("entry.1835146387", form.experience);
+    formData.append("entry.280871631", form.whyVolunteer);
+
+    try {
+      await fetch(googleFormUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formData.toString(),
+      });
+
       toast({ title: "Volunteer Request Sent", description: "Thank you for your interest! We will contact you soon." });
+      setForm({ 
+        firstName: "", lastName: "", email: "", phone: "", city: "", 
+        interests: [], interestsOther: "", availability: [], availabilityOther: "", 
+        hasLicense: "", experience: "", whyVolunteer: "" 
+      });
       onClose();
+    } catch (error) {
+      toast({ title: "Error", description: "There was a problem submitting your request. Please try again." });
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -248,8 +353,8 @@ const VolunteerForm = ({ onClose }: FormProps) => {
 
       <div className="grid sm:grid-cols-2 gap-4">
         <div className="sm:col-span-2 mt-2"><Label className="font-bold text-navy">Name *</Label></div>
-        <div><Label>First name</Label><Input required value={form.firstName} onChange={e => setForm({ ...form, firstName: e.target.value })} className="mt-1.5 bg-warm-gray" /></div>
-        <div><Label>Last name</Label><Input required value={form.lastName} onChange={e => setForm({ ...form, lastName: e.target.value })} className="mt-1.5 bg-warm-gray" /></div>
+        <div><Label>First name *</Label><Input required value={form.firstName} onChange={e => setForm({ ...form, firstName: e.target.value })} className="mt-1.5 bg-warm-gray" /></div>
+        <div><Label>Last name *</Label><Input required value={form.lastName} onChange={e => setForm({ ...form, lastName: e.target.value })} className="mt-1.5 bg-warm-gray" /></div>
         
         <div><Label>Email *</Label><Input type="email" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="mt-1.5 bg-warm-gray" /></div>
         <div><Label>Phone number</Label><Input type="tel" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} className="mt-1.5 bg-warm-gray" /></div>
