@@ -330,6 +330,74 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ─────────── ANCHORED IN CARE (CONFERENCE HERO) ─────────── */}
+      <section
+        id="anchored-in-care"
+        className="relative flex items-center justify-center scroll-mt-24 border-b-4 border-coral bg-cover bg-center bg-no-repeat py-16 md:py-20 text-white overflow-hidden"
+        style={{
+          backgroundImage:
+            'linear-gradient(135deg, rgba(0, 40, 85, 0.70) 0%, rgba(10, 25, 47, 0.76) 100%), url("https://mtsc.ca/wp-content/uploads/2026/09/hero_image.jpeg")',
+        }}
+      >
+        <div className="container-page relative z-10 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-1.5 mb-5 text-[0.8rem] font-bold uppercase tracking-wider text-navy shadow-md">
+            <span>⚓</span> Annual Leadership Conference &amp; NL Station Grand Opening
+          </div>
+
+          <h2 className="mx-auto max-w-4xl text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight !text-white drop-shadow-md">
+            Anchored in Care: <span className="text-coral-light">Navigating the Future</span> of Seafarer Welfare in Canada
+          </h2>
+
+          <p className="mx-auto mt-4 max-w-3xl text-base md:text-lg text-slate-100 leading-relaxed">
+            A full day bringing together maritime leaders, researchers, regulators, welfare practitioners, seafarers, and community partners to explore what stronger care can look like in Canadian ports.
+          </p>
+
+          <p className="mx-auto mt-3 max-w-3xl text-sm md:text-base text-slate-200 leading-relaxed">
+            Hosted by <strong className="text-white">Mission to Seafarers Canada</strong> in partnership with the <strong className="text-white">CIHR Catalyst project</strong> at Memorial University&rsquo;s Faculty of Medicine
+          </p>
+
+          <div className="mx-auto mt-6 mb-8 inline-flex max-w-3xl flex-wrap items-center justify-center gap-x-5 gap-y-2 rounded-2xl border border-white/25 bg-navy/60 px-6 py-2.5 backdrop-blur">
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">🗓️ Friday, October 2, 2026</span>
+            <span className="hidden md:inline text-white/40">•</span>
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">📍 LSPU Building, St. John&rsquo;s, NL</span>
+            <span className="hidden md:inline text-white/40">•</span>
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">🎉 NL Station Grand Opening</span>
+            <span className="hidden md:inline text-white/40">•</span>
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">🎟️ 100% Free Registration</span>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Button
+              asChild
+              size="lg"
+              className="bg-coral hover:bg-coral-light text-white font-bold shadow-warm hover:shadow-warm-hover h-12 px-7"
+            >
+              <a
+                href="https://www.zeffy.com/en-CA/ticketing/invitation-annual-leadership-conference-and-newfoundland-and-labrador-station-grand-opening"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                REGISTER TO ATTEND
+              </a>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="border-2 border-white/60 bg-white/10 text-white hover:bg-white hover:text-navy font-bold h-12 px-7"
+            >
+              <a
+                href="https://mtsc.ca/get-involved/anchored-in-care-2026/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GET MORE DETAILS
+              </a>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* ─────────── CONNECTED IN PURPOSE ─────────── */}
       <section className="py-20 bg-coral-pale/30 border-y border-border">
         <div className="container-page">
