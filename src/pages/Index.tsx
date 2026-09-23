@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -356,14 +356,17 @@ const Index = () => {
             Hosted by <strong className="text-white">Mission to Seafarers Canada</strong> in partnership with the <strong className="text-white">CIHR Catalyst project</strong> at Memorial University&rsquo;s Faculty of Medicine
           </p>
 
-          <div className="mx-auto mt-6 mb-8 inline-flex max-w-3xl flex-wrap items-center justify-center gap-x-5 gap-y-2 rounded-2xl border border-white/25 bg-navy/60 px-6 py-2.5 backdrop-blur">
-            <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">🗓️ Friday, October 2, 2026</span>
-            <span className="hidden md:inline text-white/40">•</span>
-            <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">📍 LSPU Building, St. John&rsquo;s, NL</span>
-            <span className="hidden md:inline text-white/40">•</span>
-            <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">🎉 NL Station Grand Opening</span>
-            <span className="hidden md:inline text-white/40">•</span>
-            <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">🎟️ 100% Free Registration</span>
+          <div className="mx-auto mt-6 mb-8 flex max-w-[780px] flex-col items-center overflow-hidden rounded-2xl border border-white/20 bg-navy/60 backdrop-blur-sm shadow-md">
+            <div className="flex w-full flex-wrap items-center justify-center gap-x-5 gap-y-2 px-7 py-2.5">
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">🗓️ Friday, October 2, 2026</span>
+              <span className="hidden md:inline text-white/35">•</span>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">🎉 NL Station Grand Opening</span>
+              <span className="hidden md:inline text-white/35">•</span>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">🎟️ 100% Free Registration</span>
+            </div>
+            <div className="flex w-full items-center justify-center border-t border-white/15 px-7 py-2.5">
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-white text-center">📍 LSPU Building, 687 Water Street, 2nd Floor, St. John&rsquo;s, NL A1E 1B5</span>
+            </div>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
